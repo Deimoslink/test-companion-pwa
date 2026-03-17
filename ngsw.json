@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1773758669060,
+  "timestamp": 1773762305734,
   "index": "/test-companion-pwa/index.html",
   "assetGroups": [
     {
@@ -63,22 +63,34 @@
         "ignoreVary": true
       },
       "urls": [
+        "/test-companion-pwa/assets/icons/icon-128x128.png",
+        "/test-companion-pwa/assets/icons/icon-144x144.png",
+        "/test-companion-pwa/assets/icons/icon-152x152.png",
+        "/test-companion-pwa/assets/icons/icon-192x192.png",
+        "/test-companion-pwa/assets/icons/icon-384x384.png",
+        "/test-companion-pwa/assets/icons/icon-512x512.png",
+        "/test-companion-pwa/assets/icons/icon-72x72.png",
+        "/test-companion-pwa/assets/icons/icon-96x96.png",
         "/test-companion-pwa/assets/logo.png",
-        "/test-companion-pwa/icons/icon-128x128.png",
-        "/test-companion-pwa/icons/icon-144x144.png",
-        "/test-companion-pwa/icons/icon-152x152.png",
-        "/test-companion-pwa/icons/icon-192x192.png",
-        "/test-companion-pwa/icons/icon-384x384.png",
-        "/test-companion-pwa/icons/icon-512x512.png",
-        "/test-companion-pwa/icons/icon-72x72.png",
-        "/test-companion-pwa/icons/icon-96x96.png"
+        "/test-companion-pwa/assets/screenshots/desktop.png",
+        "/test-companion-pwa/assets/screenshots/mobile.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
+    "/test-companion-pwa/assets/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
+    "/test-companion-pwa/assets/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
+    "/test-companion-pwa/assets/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
+    "/test-companion-pwa/assets/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
+    "/test-companion-pwa/assets/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
+    "/test-companion-pwa/assets/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
+    "/test-companion-pwa/assets/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
+    "/test-companion-pwa/assets/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
     "/test-companion-pwa/assets/logo.png": "9d5139945c17a44cad7f3408543fab53bd063318",
+    "/test-companion-pwa/assets/screenshots/desktop.png": "4705212455b9ff46c06155bc59691dac39809648",
+    "/test-companion-pwa/assets/screenshots/mobile.png": "007eb2c0ef99e8cc7d0f43f5b00ff40cb1113674",
     "/test-companion-pwa/chunk-235XAEG6.js": "b6d669eb6c992ab88fe6785cb26b34de497e9047",
     "/test-companion-pwa/chunk-2EEPTHBM.js": "6cb5bdf068363f2b249045f3277ed8319e50dbf3",
     "/test-companion-pwa/chunk-2NIBOUWM.js": "f16eb48e9f2ef011e2b4266be3596d112cabd53d",
@@ -116,17 +128,9 @@
     "/test-companion-pwa/chunk-YJ5TA4PT.js": "3588f144b673886efc030c76678ca4feee860e22",
     "/test-companion-pwa/chunk-YUNOCBLG.js": "e2d1b2b8fe6ae2d6a5f5b8ae3d404a0300831fb4",
     "/test-companion-pwa/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/test-companion-pwa/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
-    "/test-companion-pwa/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
-    "/test-companion-pwa/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
-    "/test-companion-pwa/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
-    "/test-companion-pwa/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
-    "/test-companion-pwa/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
-    "/test-companion-pwa/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
-    "/test-companion-pwa/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/test-companion-pwa/index.html": "ce6a5be1c4d1f1ef63bedf10e957ebdb72751f14",
+    "/test-companion-pwa/index.html": "d29ef0136ea800832482787adaeee2d4ecf3bb4b",
     "/test-companion-pwa/main-XO6CZ2AE.js": "2511c87db9f2e3c43dede6c654e07612a92925ca",
-    "/test-companion-pwa/manifest.webmanifest": "d72ae856d3a687b9e9ed3cbe15cb299efe3fabb5",
+    "/test-companion-pwa/manifest.webmanifest": "83785ab4e09ed644df5d16872082b4b24cbea454",
     "/test-companion-pwa/styles-7THVV2OS.css": "83684b07d20a003bbce648e1b1a59d0fa11baa4c"
   },
   "navigationUrls": [
