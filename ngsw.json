@@ -1,0 +1,151 @@
+{
+  "configVersion": 1,
+  "timestamp": 1773757208514,
+  "index": "/test-companion-pwa/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/test-companion-pwa/chunk-235XAEG6.js",
+        "/test-companion-pwa/chunk-2EEPTHBM.js",
+        "/test-companion-pwa/chunk-2NIBOUWM.js",
+        "/test-companion-pwa/chunk-2WOUDJ46.js",
+        "/test-companion-pwa/chunk-4TQYFDM6.js",
+        "/test-companion-pwa/chunk-5YLA3VMP.js",
+        "/test-companion-pwa/chunk-673757TA.js",
+        "/test-companion-pwa/chunk-6BY2PMZS.js",
+        "/test-companion-pwa/chunk-7PFTIMIN.js",
+        "/test-companion-pwa/chunk-A6UP7P5C.js",
+        "/test-companion-pwa/chunk-B6T5QF4B.js",
+        "/test-companion-pwa/chunk-C7VUBRTK.js",
+        "/test-companion-pwa/chunk-CDXP545X.js",
+        "/test-companion-pwa/chunk-CFX43XOX.js",
+        "/test-companion-pwa/chunk-EHNZX6MT.js",
+        "/test-companion-pwa/chunk-FDIESF3R.js",
+        "/test-companion-pwa/chunk-GSH3SO2Y.js",
+        "/test-companion-pwa/chunk-H774BQPN.js",
+        "/test-companion-pwa/chunk-I547WOKC.js",
+        "/test-companion-pwa/chunk-JMDW7HHH.js",
+        "/test-companion-pwa/chunk-MZLZXKRG.js",
+        "/test-companion-pwa/chunk-NEIO63TV.js",
+        "/test-companion-pwa/chunk-NMFL75IO.js",
+        "/test-companion-pwa/chunk-NWJ5J3BN.js",
+        "/test-companion-pwa/chunk-OKEX5WVX.js",
+        "/test-companion-pwa/chunk-OTCSOBXE.js",
+        "/test-companion-pwa/chunk-OYA4WANX.js",
+        "/test-companion-pwa/chunk-RAQJPCXR.js",
+        "/test-companion-pwa/chunk-RTDCFUY4.js",
+        "/test-companion-pwa/chunk-RVR6IHVW.js",
+        "/test-companion-pwa/chunk-UHJ36HTV.js",
+        "/test-companion-pwa/chunk-UOVXNVQ7.js",
+        "/test-companion-pwa/chunk-WWAOIWW4.js",
+        "/test-companion-pwa/chunk-XV4GXQD2.js",
+        "/test-companion-pwa/chunk-YJ5TA4PT.js",
+        "/test-companion-pwa/chunk-YUNOCBLG.js",
+        "/test-companion-pwa/favicon.ico",
+        "/test-companion-pwa/index.html",
+        "/test-companion-pwa/main-XO6CZ2AE.js",
+        "/test-companion-pwa/manifest.webmanifest",
+        "/test-companion-pwa/styles-7THVV2OS.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/test-companion-pwa/assets/logo.png",
+        "/test-companion-pwa/icons/icon-128x128.png",
+        "/test-companion-pwa/icons/icon-144x144.png",
+        "/test-companion-pwa/icons/icon-152x152.png",
+        "/test-companion-pwa/icons/icon-192x192.png",
+        "/test-companion-pwa/icons/icon-384x384.png",
+        "/test-companion-pwa/icons/icon-512x512.png",
+        "/test-companion-pwa/icons/icon-72x72.png",
+        "/test-companion-pwa/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/test-companion-pwa/assets/logo.png": "9d5139945c17a44cad7f3408543fab53bd063318",
+    "/test-companion-pwa/chunk-235XAEG6.js": "b6d669eb6c992ab88fe6785cb26b34de497e9047",
+    "/test-companion-pwa/chunk-2EEPTHBM.js": "6cb5bdf068363f2b249045f3277ed8319e50dbf3",
+    "/test-companion-pwa/chunk-2NIBOUWM.js": "f16eb48e9f2ef011e2b4266be3596d112cabd53d",
+    "/test-companion-pwa/chunk-2WOUDJ46.js": "bb29960ed4085a80bd70be272e8b3aaccd0be8fe",
+    "/test-companion-pwa/chunk-4TQYFDM6.js": "407bcc801a9e5d614a9c6664cfcc7205b31f486d",
+    "/test-companion-pwa/chunk-5YLA3VMP.js": "ae45b9ccca335d82ce643fb48ee616cbd49b2877",
+    "/test-companion-pwa/chunk-673757TA.js": "67545e59f74935fab5bfb040b39b1abe31c8e10f",
+    "/test-companion-pwa/chunk-6BY2PMZS.js": "ee222d5cd5458f8b9a7840582bdc9746f421b33f",
+    "/test-companion-pwa/chunk-7PFTIMIN.js": "76880c82828fcf3a1adde2037d8e4a4cc06338df",
+    "/test-companion-pwa/chunk-A6UP7P5C.js": "d39b28357c6a96e39a51f24a8c69dea0febe17cb",
+    "/test-companion-pwa/chunk-B6T5QF4B.js": "3de4b81d9f83d665a0ffa79089bf0b823db203dd",
+    "/test-companion-pwa/chunk-C7VUBRTK.js": "aaf309da2a690222d386ec22e9f14d0d6486958a",
+    "/test-companion-pwa/chunk-CDXP545X.js": "c5f7521d18e6ad76dab13a0edc201c241470cf13",
+    "/test-companion-pwa/chunk-CFX43XOX.js": "6a397fac1b86697af0b70799ff7a8ca0272a4c5f",
+    "/test-companion-pwa/chunk-EHNZX6MT.js": "361f753d0932d00af11b2d67ace539148267a49a",
+    "/test-companion-pwa/chunk-FDIESF3R.js": "152551c0cab40895acb576b08688bbb64c597a5b",
+    "/test-companion-pwa/chunk-GSH3SO2Y.js": "bc7596b8ae5185b794d4d9e78f9f9aa0bfbdbc72",
+    "/test-companion-pwa/chunk-H774BQPN.js": "1e67a798e82e0330762571b0c0c904da71bc3332",
+    "/test-companion-pwa/chunk-I547WOKC.js": "92261aefdb83402ebba27fbaefdf4427960a73b5",
+    "/test-companion-pwa/chunk-JMDW7HHH.js": "86837007bbe2f0e7d2cf5fe4baace9c5a8b93460",
+    "/test-companion-pwa/chunk-MZLZXKRG.js": "6120f191c0647f56159d0289b687e857c3f046ad",
+    "/test-companion-pwa/chunk-NEIO63TV.js": "be76504ecb5e114b99da90a4743e822007581d64",
+    "/test-companion-pwa/chunk-NMFL75IO.js": "474d4da78c6df98c5979a2dab41ed174f171cc39",
+    "/test-companion-pwa/chunk-NWJ5J3BN.js": "2543c7f0eb15dc020472356de4d8aa4a73797732",
+    "/test-companion-pwa/chunk-OKEX5WVX.js": "bf76136157efa12fcf83b77212b6e93b64fe2daf",
+    "/test-companion-pwa/chunk-OTCSOBXE.js": "2a2bc2d027b73b068c96e20730a67621418e35c2",
+    "/test-companion-pwa/chunk-OYA4WANX.js": "09381db34efefa57cb4328e1e709974b07685557",
+    "/test-companion-pwa/chunk-RAQJPCXR.js": "5849a85d560f5bce3d815578e190b15e86eb9f6e",
+    "/test-companion-pwa/chunk-RTDCFUY4.js": "9f997304ce0dd9aca8f7dd669b0269cefb2e78b0",
+    "/test-companion-pwa/chunk-RVR6IHVW.js": "2b60e3765abd88c7f8ae2e1638366ae6e5b438df",
+    "/test-companion-pwa/chunk-UHJ36HTV.js": "d8533ede4c377c7b8b37c413f1a019debfb637b9",
+    "/test-companion-pwa/chunk-UOVXNVQ7.js": "826455d6e342439cb773dbfcc9d0e2529c3cc0f4",
+    "/test-companion-pwa/chunk-WWAOIWW4.js": "efe2f6cdc2e9f399ff29fcab53425e146d1d716f",
+    "/test-companion-pwa/chunk-XV4GXQD2.js": "89fa2dc1a516d96085965578020dce863bd9cac2",
+    "/test-companion-pwa/chunk-YJ5TA4PT.js": "3588f144b673886efc030c76678ca4feee860e22",
+    "/test-companion-pwa/chunk-YUNOCBLG.js": "e2d1b2b8fe6ae2d6a5f5b8ae3d404a0300831fb4",
+    "/test-companion-pwa/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/test-companion-pwa/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
+    "/test-companion-pwa/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
+    "/test-companion-pwa/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
+    "/test-companion-pwa/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
+    "/test-companion-pwa/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
+    "/test-companion-pwa/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
+    "/test-companion-pwa/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
+    "/test-companion-pwa/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/test-companion-pwa/index.html": "ce6a5be1c4d1f1ef63bedf10e957ebdb72751f14",
+    "/test-companion-pwa/main-XO6CZ2AE.js": "2511c87db9f2e3c43dede6c654e07612a92925ca",
+    "/test-companion-pwa/manifest.webmanifest": "c3d8c615a2d58c2cdc122c2341cf228610625f51",
+    "/test-companion-pwa/styles-7THVV2OS.css": "83684b07d20a003bbce648e1b1a59d0fa11baa4c"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
