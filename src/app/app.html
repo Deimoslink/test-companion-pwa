@@ -1,0 +1,59 @@
+<ion-app>
+  <ion-menu contentId="main-content" [disabled]="!(isAuthenticated$ | async)" type="overlay">
+    <ion-header>
+      <ion-toolbar color="tertiary">
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list lines="none">
+
+        @for (item of menuItems; track item.path) {
+          @if (checkRole(item.data?.['roles'], (userRole$ | async))) {
+            <ion-menu-toggle auto-hide="false">
+              <ion-item [button]="true" [routerLink]="['/' + item.path]" routerDirection="root">
+                <ion-icon slot="start" [name]="item.data?.['icon']"></ion-icon>
+                <ion-label>{{ item.data?.['title'] }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          }
+        }
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item [button]="true" (click)="logout()" [detail]="false">
+            <ion-icon slot="start" name="log-out-outline" color="danger"></ion-icon>
+            <ion-label color="danger">Logout</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <div id="main-content" class="ion-page">
+  @if (isAuthenticated$ | async) {
+    <ion-header>
+      <ion-toolbar color="tertiary">
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>{{ title$ | async }}</ion-title>
+        <ion-buttons slot="end">
+          @if (isOnline()) {
+            <ion-icon name="cloud-done" color="success" size="small"></ion-icon>
+          } @else {
+            <ion-icon name="cloud-offline" color="danger" size="small"></ion-icon>
+          }
+          <ion-button (click)="logout()">
+            <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+  }
+    <ion-content>
+      <ion-router-outlet></ion-router-outlet>
+    </ion-content>
+  </div>
+
+</ion-app>

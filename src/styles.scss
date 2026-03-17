@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+/* Аналоги Bootstrap Typography */
+.text-xs {
+  font-size: 0.75rem !important;    /* 12px */
+  line-height: 1rem;
+}
+
+.text-sm {
+  font-size: 0.875rem !important;   /* 14px */
+  line-height: 1.25rem;
+}
+
+.text-base {
+  font-size: 1rem !important;       /* 16px - стандарт */
+  line-height: 1.5rem;
+}
+
+.text-md {
+  font-size: 1.125rem !important;   /* 18px */
+  line-height: 1.75rem;
+}
+
+.text-lg {
+  font-size: 1.25rem !important;    /* 20px */
+  line-height: 1.75rem;
+}
+
+.text-xl {
+  font-size: 1.5rem !important;     /* 24px */
+  line-height: 2rem;
+}
+
+.text-2xl {
+  font-size: 1.875rem !important;   /* 30px */
+  line-height: 2.25rem;
+}
