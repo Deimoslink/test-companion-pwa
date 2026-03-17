@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1773757208514,
+  "timestamp": 1773758669060,
   "index": "/test-companion-pwa/index.html",
   "assetGroups": [
     {
@@ -126,7 +126,7 @@
     "/test-companion-pwa/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
     "/test-companion-pwa/index.html": "ce6a5be1c4d1f1ef63bedf10e957ebdb72751f14",
     "/test-companion-pwa/main-XO6CZ2AE.js": "2511c87db9f2e3c43dede6c654e07612a92925ca",
-    "/test-companion-pwa/manifest.webmanifest": "c3d8c615a2d58c2cdc122c2341cf228610625f51",
+    "/test-companion-pwa/manifest.webmanifest": "d72ae856d3a687b9e9ed3cbe15cb299efe3fabb5",
     "/test-companion-pwa/styles-7THVV2OS.css": "83684b07d20a003bbce648e1b1a59d0fa11baa4c"
   },
   "navigationUrls": [
