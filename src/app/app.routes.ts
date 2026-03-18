@@ -32,5 +32,11 @@ export const routes: Routes = [
     loadComponent: () => import('@pages/settings/settings').then(m => m.Settings),
     canActivate: [roleGuard(['admin', 'user'])],
     data: { title: 'Settings', icon: 'settings-outline', roles: ['admin', 'user'], showInMenu: true }
+  },
+  {
+    path: 'audio-recording',
+    loadComponent: () => import('@pages/audio-recordings/audio-recordings').then(m => m.AudioRecordings),
+    canActivate: [roleGuard(['admin', 'user'])],
+    data: { title: 'Audio Recordings', icon: 'mic-outline', roles: ['admin', 'user'], showInMenu: true }
   }
 ];

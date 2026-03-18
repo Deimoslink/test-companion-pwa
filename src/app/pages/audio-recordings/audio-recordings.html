@@ -1,0 +1,33 @@
+<ion-content class="ion-padding">
+  <div class="recorder-container">
+    <ion-fab-button [color]="isRecording() ? 'danger' : 'primary'" (click)="toggleRecording()">
+      <ion-icon [name]="isRecording() ? 'stop-outline' : 'mic-outline'"></ion-icon>
+    </ion-fab-button>
+    <p>{{ isRecording() ? 'Recording...' : 'Tap to record' }}</p>
+  </div>
+
+  <ion-list-header>
+    <ion-label>Sync queue ({{ recordings().length }})</ion-label>
+  </ion-list-header>
+
+  <ion-list>
+    @for (rec of recordings(); track rec.id) {
+
+      <app-audio-player
+        [recording]="rec"
+        [isExpanded]="activeId() === rec.id"
+        (toggleExpand)="activeId.set(activeId() === rec.id ? null : (rec.id ?? null))"
+        (delete)="deleteRecord($event)">
+      </app-audio-player>
+
+    } @empty {
+      @if (!isRecording) {
+        <ion-card class="ion-text-center">
+          <ion-card-content>
+            No pending recordings. Start recording by tapping the button above.
+          </ion-card-content>
+        </ion-card>
+      }
+    }
+  </ion-list>
+</ion-content>
