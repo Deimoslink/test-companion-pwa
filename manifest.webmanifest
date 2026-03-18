@@ -26,9 +26,9 @@
 "screenshots": [
   {
     "src": "assets/screenshots/desktop.png",
-    "sizes": "1280x720",
+    "sizes": "720x1280",
     "type": "image/png",
-    "form_factor": "wide",
+    "form_factor": "narrow",
     "label": "Desktop"
   },
   {
