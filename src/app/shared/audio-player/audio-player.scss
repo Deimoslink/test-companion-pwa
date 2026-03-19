@@ -4,7 +4,6 @@
   margin: 10px 16px;
   cursor: pointer;
 
-  // Оба слоя баров должны лежать ровно друг на друге
   .waveform-bg, .waveform-bars {
     display: flex;
     justify-content: space-between;
@@ -24,8 +23,6 @@
 
   .waveform-bars {
     z-index: 2;
-    // clip-path режет этот слой справа налево в зависимости от прогресса
-    // Мы задали его инлайном в HTML через [style.clip-path]
     .bar { background-color: var(--ion-color-primary, #3880ff); }
   }
 
@@ -48,4 +45,18 @@
     pointer-events: none;
     transform: translateX(-50%);
   }
+
+  .waveform-bars {
+    transition: clip-path 0.05s linear;
+  }
+
+  .cursor-line {
+    transition: left 0.05s linear;
+  }
+
+  .waveform-container * {
+    will-change: clip-path, left;
+    backface-visibility: hidden;
+  }
+
 }

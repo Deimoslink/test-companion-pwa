@@ -1,6 +1,6 @@
 <ion-content class="ion-padding">
   <div class="recorder-container">
-    <ion-fab-button [color]="isRecording() ? 'danger' : 'primary'" (click)="toggleRecording()">
+    <ion-fab-button [color]="isRecording() ? 'danger' : 'tertiary'" (click)="toggleRecording()">
       <ion-icon [name]="isRecording() ? 'stop-outline' : 'mic-outline'"></ion-icon>
     </ion-fab-button>
     <p>{{ isRecording() ? 'Recording...' : 'Tap to record' }}</p>

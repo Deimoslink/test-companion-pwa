@@ -1,6 +1,6 @@
-import {Component, computed, EventEmitter, Input, Output, signal} from '@angular/core';
+import {Component, computed, EventEmitter, Input, OnDestroy, Output, signal} from '@angular/core';
 import {OfflineEntry} from '@core/services/storage.service';
-import {CommonModule, DatePipe, DecimalPipe} from '@angular/common';
+import {CommonModule, DecimalPipe} from '@angular/common';
 import {
   micOutline,
   stopOutline,
@@ -13,23 +13,20 @@ import {
 } from 'ionicons/icons';
 import {addIcons} from 'ionicons';
 import {
-  IonButton,
   IonIcon,
   IonItem, IonItemOption,
   IonItemOptions,
-  IonItemSliding,
-  IonLabel, IonNote,
-  IonRange
+  IonLabel
 } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-audio-player',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, DatePipe, IonItemSliding, IonItem, IonIcon, IonLabel, IonRange, IonItemOptions, IonItemOption, IonNote, IonButton],
+  imports: [CommonModule, DecimalPipe, IonItem, IonIcon, IonLabel, IonItemOptions, IonItemOption],
   templateUrl: './audio-player.html',
   styleUrl: './audio-player.scss',
 })
-export class AudioPlayer {
+export class AudioPlayer implements OnDestroy {
   private _recording!: OfflineEntry;
   @Input({ required: true })
   set recording(value: OfflineEntry) {
@@ -45,12 +42,8 @@ export class AudioPlayer {
   get recording(): OfflineEntry {
     return this._recording;
   }
-
-
-
   @Output() delete = new EventEmitter<number | undefined>(); // Добавь undefined сюда
 
-  // Внутренний стейт плеера
   isPlaying = signal(false);
   currentTime = signal(0);
   duration = signal(0);
@@ -62,10 +55,10 @@ export class AudioPlayer {
 
   private audio = new Audio();
 
+  private animationFrameId?: number;
   constructor() {
     this.audio.ontimeupdate = () => this.currentTime.set(this.audio.currentTime);
     this.audio.onloadedmetadata = () => this.duration.set(this.audio.duration);
-    this.audio.onended = () => this.isPlaying.set(false);
 
     addIcons({
       micOutline,
@@ -77,6 +70,26 @@ export class AudioPlayer {
       musicalNotesOutline,
       pauseCircleOutline
     });
+
+
+    this.audio.onplay = () => {
+      this.isPlaying.set(true);
+      this.startSmoothProgress();
+    };
+
+    this.audio.onpause = () => {
+      this.isPlaying.set(false);
+      this.stopSmoothProgress();
+    };
+
+    this.audio.onended = () => {
+      this.isPlaying.set(false);
+      this.stopSmoothProgress();
+      this.currentTime.set(0); // Сбрасываем в ноль по окончании
+    };
+
+
+
   }
 
   async playPause(event: Event) {
@@ -88,28 +101,17 @@ export class AudioPlayer {
       this.audio.oncanplaythrough = () => URL.revokeObjectURL(url);
     }
 
-    if (this.isPlaying()) {
+    if (!this.audio.paused) {
       this.audio.pause();
-      this.isPlaying.set(false);
     } else {
       try {
-        // play() возвращает Promise. Мы ДОЛЖНЫ его дождаться или поймать ошибку.
         await this.audio.play();
-        this.isPlaying.set(true);
       } catch (err) {
-        // Здесь мы ловим тот самый AbortError.
-        // Просто игнорируем его, так как это штатная отмена воспроизведения.
-        if (err instanceof DOMException && err.name === 'AbortError') {
-          console.warn('Playback interrupted by pause() or source change');
-        } else {
+        if (!(err instanceof DOMException && err.name === 'AbortError')) {
           console.error('Playback error:', err);
         }
       }
     }
-  }
-
-  seek(ev: any) {
-    this.audio.currentTime = ev.detail.value;
   }
 
   formatTime(seconds: number): string {
@@ -129,4 +131,31 @@ export class AudioPlayer {
     this.audio.currentTime = newTime;
     this.currentTime.set(newTime);
   }
+
+  private startSmoothProgress() {
+    this.stopSmoothProgress();
+
+    const update = () => {
+      if (!this.audio.paused && !this.audio.ended) {
+        this.currentTime.set(this.audio.currentTime);
+        this.animationFrameId = requestAnimationFrame(update);
+      }
+    };
+    this.animationFrameId = requestAnimationFrame(update);
+  }
+
+  private stopSmoothProgress() {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = undefined; // Сбрасываем ID
+    }
+  }
+
+  ngOnDestroy() {
+    this.stopSmoothProgress();
+    this.audio.pause();
+    this.audio.src = '';
+  }
+
+
 }

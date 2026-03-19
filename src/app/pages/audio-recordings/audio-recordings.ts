@@ -1,5 +1,5 @@
 import {Component, OnInit, signal} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {OfflineEntry, StorageService} from '@core/services/storage.service';
 import {AudioRecordingService} from '@core/services/audio-recording.service';
 import {addIcons} from 'ionicons';
@@ -21,7 +21,7 @@ import {
   IonLabel,
   IonList, IonListHeader
 } from '@ionic/angular/standalone';
-import {WaveformService} from '@core/services/waveform.service'; // Если используешь Ionic компоненты
+import {WaveformService} from '@core/services/waveform.service';
 
 
 @Component({
@@ -60,7 +60,6 @@ export class AudioRecordings implements OnInit {
   async loadRecordings() {
     const data = await this.storageService.getUnsynced();
     this.recordings.set(data);
-    console.log('Recordings updated in signal:', this.recordings().length);
   }
 
   async toggleRecording() {
@@ -96,18 +95,9 @@ export class AudioRecordings implements OnInit {
     }
   }
 
-  playRecording(blob: Blob) {
-    const audioUrl = URL.createObjectURL(blob);
-    const audio = new Audio(audioUrl);
-    audio.play();
-    audio.onended = () => URL.revokeObjectURL(audioUrl);
-  }
-
   async deleteRecord(id: number | null | undefined) {
-    // Проверяем на существование, чтобы отсечь undefined и null
     if (id === null || id === undefined) return;
 
-    // Теперь TS уверен, что id — это number
     await this.storageService.delete(id);
 
     if (this.activeId() === id) {
@@ -123,7 +113,7 @@ export class AudioRecordings implements OnInit {
 
       tempAudio.addEventListener('loadedmetadata', () => {
         URL.revokeObjectURL(url);
-        // Если формат webm/ogg, duration может быть Infinity, фиксим это:
+        // If webm/ogg, duration  may be Infinity:
         if (tempAudio.duration === Infinity) {
           tempAudio.currentTime = 1e101;
           tempAudio.ontimeupdate = () => {

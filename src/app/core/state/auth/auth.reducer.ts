@@ -3,9 +3,9 @@ import {AuthState} from './auth.state';
 import {AuthActions} from './auth.actions';
 
 
-// В начале файла auth.reducer.ts
+// TODO: rewrite after real authentication implemented
 const getInitialAuthState = (): AuthState => {
-  const savedSession = localStorage.getItem('user_session'); // ищем нашу "куку"
+  const savedSession = localStorage.getItem('user_session');
 
   if (savedSession) {
     try {
@@ -17,7 +17,7 @@ const getInitialAuthState = (): AuthState => {
         error: null
       };
     } catch (e) {
-      console.error('Ошибка парсинга сессии', e);
+      console.error(e);
     }
   }
 
@@ -61,6 +61,5 @@ export const authReducer = createReducer(
     error: error
   })),
 
-  // Полный сброс при выходе
   on(AuthActions.logout, () => logoutState)
 );

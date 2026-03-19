@@ -1,11 +1,25 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {delay, of, Observable, throwError, switchMap} from 'rxjs';
-import { UserRole } from '@state/auth/auth.state';
+import {UserRole} from '@state/auth/auth.state';
+import {AuthActions} from '@state/auth/auth.actions';
+import {Store} from '@ngrx/store';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
-  login(username: string, password: string): Observable<{ token: string; role: UserRole }> {
+  private store = inject(Store);
+
+  login(username: string, password: string) {
+    this.store.dispatch(AuthActions.login({ username, password }));
+  }
+
+  logout() {
+    this.store.dispatch(AuthActions.logout());
+  }
+
+  loginApi(username: string, password: string): Observable<{ token: string; role: UserRole }> {
     if (password === 'password') {
       if (username === 'admin') {
         return of({ token: 'fake-admin-token', role: 'admin' as UserRole }).pipe(delay(1000));
@@ -28,7 +42,4 @@ export class AuthService {
     return throwError(() => new Error('No session'));
   }
 
-  logout(): Observable<boolean> {
-    return of(true).pipe(delay(500));
-  }
 }

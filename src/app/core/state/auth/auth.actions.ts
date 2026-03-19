@@ -1,5 +1,5 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { UserRole } from './auth.state';
+import {createActionGroup, emptyProps, props} from '@ngrx/store';
+import {UserRole} from './auth.state';
 
 export const AuthActions = createActionGroup({
   source: 'Auth',

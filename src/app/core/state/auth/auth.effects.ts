@@ -1,10 +1,10 @@
-import { inject, Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType, ROOT_EFFECTS_INIT} from '@ngrx/effects';
-import { AuthService } from '@core/services/auth.service';
-import { AuthActions } from './auth.actions';
+import {AuthService} from '@core/services/auth.service';
+import {AuthActions} from './auth.actions';
 import {map, exhaustMap, tap, catchError} from 'rxjs/operators';
-import { Router } from '@angular/router';
-import {Observable, of} from 'rxjs';
+import {Router} from '@angular/router';
+import {delay, Observable, of} from 'rxjs';
 import {Action} from '@ngrx/store';
 
 @Injectable()
@@ -16,8 +16,8 @@ export class AuthEffects {
   login$ = createEffect((): Observable<Action> =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      exhaustMap(({ username, password }) => // Теперь тут будут username и password
-        this.authService.login(username, password).pipe(
+      exhaustMap(({ username, password }) =>
+        this.authService.loginApi(username, password).pipe(
           map((response) => AuthActions.loginSuccess({ role: response.role })),
           catchError((error: any) =>
             of(AuthActions.loginFailure({ error: error.message || 'Incorrect credentials' }))
@@ -29,9 +29,9 @@ export class AuthEffects {
 
   initAuth$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ROOT_EFFECTS_INIT), // Специальный экшен NgRx, срабатывающий при старте
+      ofType(ROOT_EFFECTS_INIT), // NxRx starts with this action
       exhaustMap(() =>
-        this.authService.getCurrentUser().pipe( // Твой аналог fetchCurrentPrincipal
+        this.authService.getCurrentUser().pipe(
           map(user => AuthActions.initAuthSuccess({ role: user.role })),
           catchError(() => of(AuthActions.initAuthFailure()))
         )
@@ -39,7 +39,7 @@ export class AuthEffects {
     )
   );
 
-  // Редирект после успешного входа
+  // Redirect on successful login
   loginSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginSuccess),
@@ -51,15 +51,16 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  // Эффект для выхода
+  // Effect on logout - clear session and redirect
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
+      delay(500),
       tap(() => {
         localStorage.removeItem('user_session');
       }),
       tap(() => {
-        // Очищаем кэш/токены
+        // Clear any other session-related data here if needed
         this.router.navigate(['/login']);
       }),
     ),

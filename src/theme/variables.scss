@@ -1,9 +1,5 @@
-/* src/theme/variables.scss */
-
-/* 1. Импортируем палитру, которая работает ТОЛЬКО с классом .ion-palette-dark */
 @import "@ionic/angular/css/palettes/dark.class.css";
 
-/* 2. Глобальная настройка color-scheme для всего приложения */
 :root {
   &.ion-palette-dark {
     color-scheme: dark;

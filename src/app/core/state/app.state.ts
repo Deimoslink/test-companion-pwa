@@ -1,7 +1,5 @@
-import { AuthState } from './auth/auth.state';
-import { LayoutState } from './layout/layout.state';
+import {AuthState} from './auth/auth.state';
 
 export interface AppState {
   auth: AuthState;
-  layout: LayoutState;
 }
