@@ -15,8 +15,6 @@
 
       <app-audio-player
         [recording]="rec"
-        [isExpanded]="activeId() === rec.id"
-        (toggleExpand)="activeId.set(activeId() === rec.id ? null : (rec.id ?? null))"
         (delete)="deleteRecord($event)">
       </app-audio-player>
 

@@ -1,42 +1,69 @@
-<ion-item-sliding>
-  <ion-item lines="none" [class.active-item]="isExpanded" (click)="toggleExpand.emit()">
-    <ion-icon
-      [name]="isPlaying() ? 'pause-circle-outline' : 'play-circle-outline'"
-      slot="start"
-      color="primary"
-      (click)="playPause($event)">
-    </ion-icon>
+<ion-item lines="none">
+  <ion-icon
+    [name]="isPlaying() ? 'pause-circle-outline' : 'play-circle-outline'"
+    slot="start"
+    color="primary"
+    (click)="playPause($event)">
+  </ion-icon>
 
-    <ion-label>
-      <h2>{{ recording.metadata?.name || 'Аудиозапись' }}</h2>
-      <p>{{ recording.timestamp | date:'HH:mm' }} • {{ (recording.blob.size / 1024) | number:'1.0-0' }} KB</p>
-    </ion-label>
+  <ion-label>
+    <h2>{{ recording.metadata?.name || 'Recording' }}</h2>
+    <p>{{ formatTime(duration()) }} • {{ (recording.blob.size / 1024) | number:'1.0-0' }} KB</p>
+  </ion-label>
 
-    <ion-icon name="trash-outline"
-              slot="end"
-              color="danger"
-              (click)="delete.emit(recording.id); $event.stopPropagation()">
+  <ion-icon name="trash-outline"
+            slot="end"
+            color="danger"
+            (click)="delete.emit(recording.id); $event.stopPropagation()">
 
-    </ion-icon>
+  </ion-icon>
 
-  </ion-item>
+</ion-item>
 
-  @if (isExpanded) {
-    <div class="player-controls ion-padding-horizontal">
-      <ion-range
-        [max]="duration()"
-        [value]="currentTime()"
-        (ionKnobMoveEnd)="seek($event)"
-        color="primary">
-        <ion-label slot="start" class="time-label">{{ formatTime(currentTime()) }}</ion-label>
-        <ion-label slot="end" class="time-label">{{ formatTime(duration()) }}</ion-label>
-      </ion-range>
+<div class="waveform-container" #container (click)="seekFromWaveform($event)">
+  <div class="waveform-bg">
+    @for (peak of waveform(); track $index) {
+      <div class="bar" [style.height.%]="peak * 100"></div>
+    }
+  </div>
+
+  <div class="progress-clipper" [style.width.%]="progress()">
+    <div class="waveform-active" [style.width.px]="container.offsetWidth">
+      @for (peak of waveform(); track $index) {
+        <div class="bar active" [style.height.%]="peak * 100"></div>
+      }
     </div>
-  }
+  </div>
+</div>
 
-  <ion-item-options side="end">
-    <ion-item-option color="danger" (click)="delete.emit(recording.id)">
-      <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-    </ion-item-option>
-  </ion-item-options>
-</ion-item-sliding>
+<!--<div class="waveform-container"-->
+<!--     (click)="seekFromWaveform($event)"-->
+<!--     [style.&#45;&#45;progress-val]="progress() + '%'">-->
+
+<!--  <div class="waveform-bars">-->
+<!--    @for (peak of waveform(); track $index) {-->
+<!--      <div class="bar" [style.height.%]="peak * 100"></div>-->
+<!--    }-->
+<!--  </div>-->
+
+<!--  <div class="cursor-line" [style.left.%]="progress()"></div>-->
+<!--</div>-->
+
+
+
+<!--  <div class="player-controls ion-padding-horizontal">-->
+<!--    <ion-range-->
+<!--      [max]="duration()"-->
+<!--      [value]="currentTime()"-->
+<!--      (ionKnobMoveEnd)="seek($event)"-->
+<!--      color="primary">-->
+<!--      <ion-label slot="start" class="time-label">{{ formatTime(currentTime()) }}</ion-label>-->
+<!--      <ion-label slot="end" class="time-label">{{ formatTime(duration()) }}</ion-label>-->
+<!--    </ion-range>-->
+<!--  </div>-->
+
+<ion-item-options side="end">
+  <ion-item-option color="danger" (click)="delete.emit(recording.id)">
+    <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+  </ion-item-option>
+</ion-item-options>

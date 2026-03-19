@@ -20,7 +20,8 @@ import {
   IonIcon,
   IonLabel,
   IonList, IonListHeader
-} from '@ionic/angular/standalone'; // Если используешь Ionic компоненты
+} from '@ionic/angular/standalone';
+import {WaveformService} from '@core/services/waveform.service'; // Если используешь Ionic компоненты
 
 
 @Component({
@@ -37,7 +38,8 @@ export class AudioRecordings implements OnInit {
 
   constructor(
     private audioService: AudioRecordingService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private waveformService: WaveformService
   ) {
     addIcons({
       micOutline,
@@ -66,8 +68,16 @@ export class AudioRecordings implements OnInit {
       try {
         const blob = await this.audioService.stopRecording();
         if (blob.size > 0) {
+
+          const [duration, waveform] = await Promise.all([
+            this.getBlobDuration(blob),
+            this.waveformService.generateWaveform(blob, 280) // Генерируем 140 точек
+          ]);
+
           await this.storageService.save('audio', blob, {
-            name: `Record ${new Date().toLocaleTimeString()}`
+            name: `Record ${new Date().toLocaleTimeString()}`,
+            duration,
+            waveform
           });
         }
         this.isRecording.set(false);
@@ -104,6 +114,30 @@ export class AudioRecordings implements OnInit {
       this.activeId.set(null);
     }
     await this.loadRecordings();
+  }
+
+  private getBlobDuration(blob: Blob): Promise<number> {
+    return new Promise((resolve) => {
+      const tempAudio = new Audio();
+      const url = URL.createObjectURL(blob);
+
+      tempAudio.addEventListener('loadedmetadata', () => {
+        URL.revokeObjectURL(url);
+        // Если формат webm/ogg, duration может быть Infinity, фиксим это:
+        if (tempAudio.duration === Infinity) {
+          tempAudio.currentTime = 1e101;
+          tempAudio.ontimeupdate = () => {
+            tempAudio.ontimeupdate = null;
+            resolve(tempAudio.duration);
+            tempAudio.currentTime = 0;
+          };
+        } else {
+          resolve(tempAudio.duration);
+        }
+      });
+
+      tempAudio.src = url;
+    });
   }
 
 }

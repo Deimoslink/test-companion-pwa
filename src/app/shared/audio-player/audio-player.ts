@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, signal} from '@angular/core';
+import {Component, computed, EventEmitter, Input, Output, signal} from '@angular/core';
 import {OfflineEntry} from '@core/services/storage.service';
 import {CommonModule, DatePipe, DecimalPipe} from '@angular/common';
 import {
@@ -13,31 +13,52 @@ import {
 } from 'ionicons/icons';
 import {addIcons} from 'ionicons';
 import {
+  IonButton,
   IonIcon,
   IonItem, IonItemOption,
   IonItemOptions,
   IonItemSliding,
-  IonLabel,
+  IonLabel, IonNote,
   IonRange
 } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-audio-player',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, DatePipe, IonItemSliding, IonItem, IonIcon, IonLabel, IonRange, IonItemOptions, IonItemOption],
+  imports: [CommonModule, DecimalPipe, DatePipe, IonItemSliding, IonItem, IonIcon, IonLabel, IonRange, IonItemOptions, IonItemOption, IonNote, IonButton],
   templateUrl: './audio-player.html',
   styleUrl: './audio-player.scss',
 })
 export class AudioPlayer {
-  @Input({ required: true }) recording!: OfflineEntry;
-  @Input() isExpanded = false;
+  private _recording!: OfflineEntry;
+  @Input({ required: true })
+  set recording(value: OfflineEntry) {
+    console.log('Setting recording:', value);
+    this._recording = value;
+    if (value.metadata?.duration) {
+      this.duration.set(value.metadata.duration);
+    }
+    if (value.metadata?.waveform) {
+      this.waveform.set(value.metadata.waveform);
+    }
+  }
+  get recording(): OfflineEntry {
+    return this._recording;
+  }
+
+
+
   @Output() delete = new EventEmitter<number | undefined>(); // Добавь undefined сюда
-  @Output() toggleExpand = new EventEmitter<void>();
 
   // Внутренний стейт плеера
   isPlaying = signal(false);
   currentTime = signal(0);
   duration = signal(0);
+  waveform = signal<number[]>([]); // Сигнал для волны
+  progress = computed(() => {
+    if (this.duration() === 0) return 0;
+    return (this.currentTime() / this.duration()) * 100;
+  });
 
   private audio = new Audio();
 
@@ -96,5 +117,16 @@ export class AudioPlayer {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  seekFromWaveform(ev: MouseEvent) {
+    const container = ev.currentTarget as HTMLElement;
+    const rect = container.getBoundingClientRect();
+    const x = ev.clientX - rect.left; // Клик относительно контейнера
+    const clickedPercent = x / rect.width;
+    const newTime = clickedPercent * this.duration();
+
+    this.audio.currentTime = newTime;
+    this.currentTime.set(newTime);
   }
 }
