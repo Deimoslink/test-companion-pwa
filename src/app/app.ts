@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import {
   IonApp, IonHeader, IonToolbar, IonTitle,
@@ -7,12 +7,11 @@ import {
 } from '@ionic/angular/standalone';
 import {addIcons} from 'ionicons';
 import {Store} from '@ngrx/store';
-import {selectTitle} from '@state/layout/layout.selectors';
 import {AuthActions} from '@state/auth/auth.actions';
 import {AppState} from '@state/app.state';
 import {filter, mergeMap, startWith, tap} from 'rxjs/operators';
 import {ActivatedRoute, NavigationEnd, Router, RouterLink} from '@angular/router';
-import {homeOutline, shieldCheckmarkOutline, logOutOutline, settingsOutline, cloudDone, cloudOffline, micOutline} from 'ionicons/icons';
+import {homeOutline, shieldCheckmarkOutline, logOutOutline, settingsOutline, cloudDone, cloudOffline, micOutline, moonOutline, sunnyOutline} from 'ionicons/icons';
 import {routes} from './app.routes';
 import {ConnectionService} from '@core/services/connection.service';
 import {map, Observable} from 'rxjs';
@@ -28,9 +27,11 @@ import {map, Observable} from 'rxjs';
     IonButton, IonIcon, AsyncPipe, IonMenu, IonList, IonItem, IonLabel, RouterLink, IonMenuButton, IonMenuToggle
   ],
 })
-export class App {
+export class App implements OnInit {
   public connectionService = inject(ConnectionService);
   public isOnline = this.connectionService.isOnline;
+
+  isDarkMode = false;
 
   private readonly store = inject(Store<AppState>);
   private router = inject(Router);
@@ -67,6 +68,36 @@ export class App {
     startWith('')
   );
 
+  toggleTheme() {
+    this.isDarkMode = !this.isDarkMode;
+    this.applyTheme(this.isDarkMode);
+  }
+
+  private applyTheme(isDark: boolean) {
+    this.isDarkMode = isDark;
+
+    // Вешаем класс на <html> (это и есть :root)
+    // Ionic 8 использует именно .ion-palette-dark
+    const root = document.documentElement;
+    root.classList.toggle('ion-palette-dark', isDark);
+
+    // Дополнительно форсим color-scheme через инлайн-стиль для надежности
+    root.style.setProperty('color-scheme', isDark ? 'dark' : 'light');
+
+    localStorage.setItem('user-theme', isDark ? 'dark' : 'light');
+  }
+
+  ngOnInit() {
+    // 1. Проверяем сохраненную тему
+    const savedTheme = localStorage.getItem('user-theme');
+
+    // 2. Если сохранения нет, проверяем системную настройку Pixel 9
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    this.isDarkMode = savedTheme ? savedTheme === 'dark' : prefersDark;
+    this.applyTheme(this.isDarkMode);
+  }
+
 
 
   checkRole(routeRoles: string[], userRole: string | null): boolean {
@@ -79,7 +110,7 @@ export class App {
 
   constructor() {
     // Регистрируем иконку (обязательно для standalone)
-    addIcons({ homeOutline, shieldCheckmarkOutline, logOutOutline, settingsOutline, cloudDone, cloudOffline, micOutline });
+    addIcons({ homeOutline, shieldCheckmarkOutline, logOutOutline, settingsOutline, cloudDone, cloudOffline, micOutline, moonOutline, sunnyOutline });
     // this.router.events.subscribe(event => {
     //   console.log('Router Event:', event);
     // });

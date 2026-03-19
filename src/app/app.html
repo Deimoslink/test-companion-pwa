@@ -39,6 +39,10 @@
         </ion-buttons>
         <ion-title>{{ title$ | async }}</ion-title>
         <ion-buttons slot="end">
+          <ion-button (click)="toggleTheme()">
+            <ion-icon slot="icon-only" [name]="isDarkMode ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+          </ion-button>
+
           @if (isOnline()) {
             <ion-icon name="cloud-done" color="success" size="small"></ion-icon>
           } @else {

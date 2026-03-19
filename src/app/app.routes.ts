@@ -4,7 +4,11 @@ import {guestGuard} from '@core/auth/guest.guard';
 import {PasswordRestore} from '@pages/password-restore/password-restore';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' }, // Теперь стартуем с логина
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  }, // Теперь стартуем с логина
   {
     path: 'login',
     loadComponent: () => import('@pages/login/login').then(m => m.Login),
@@ -38,5 +42,9 @@ export const routes: Routes = [
     loadComponent: () => import('@pages/audio-recordings/audio-recordings').then(m => m.AudioRecordings),
     canActivate: [roleGuard(['admin', 'user'])],
     data: { title: 'Audio Recordings', icon: 'mic-outline', roles: ['admin', 'user'], showInMenu: true }
+  },
+  {
+    path: '**',
+    redirectTo: 'home'
   }
 ];

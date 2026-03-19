@@ -1,6 +1,5 @@
 import {Component, OnInit, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import {OfflineEntry, StorageService} from '@core/services/storage.service';
 import {AudioRecordingService} from '@core/services/audio-recording.service';
 import {addIcons} from 'ionicons';
@@ -13,13 +12,21 @@ import {
   cloudOffline,
   musicalNotesOutline
 } from 'ionicons/icons';
-import {AudioPlayer} from '@shared/audio-player/audio-player'; // Если используешь Ionic компоненты
+import {AudioPlayer} from '@shared/audio-player/audio-player';
+import {
+  IonCard,
+  IonCardContent, IonContent,
+  IonFabButton,
+  IonIcon,
+  IonLabel,
+  IonList, IonListHeader
+} from '@ionic/angular/standalone'; // Если используешь Ionic компоненты
 
 
 @Component({
   selector: 'app-audio-recordings',
   standalone: true,
-  imports: [CommonModule, IonicModule, AudioPlayer],
+  imports: [CommonModule, AudioPlayer, IonFabButton, IonLabel, IonList, IonCard, IonCardContent, IonIcon, IonListHeader, IonContent],
   templateUrl: './audio-recordings.html',
   styleUrl: './audio-recordings.scss',
 })

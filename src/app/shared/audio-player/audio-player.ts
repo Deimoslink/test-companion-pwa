@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output, signal} from '@angular/core';
 import {OfflineEntry} from '@core/services/storage.service';
 import {CommonModule, DatePipe, DecimalPipe} from '@angular/common';
-import {IonicModule} from '@ionic/angular';
 import {
   micOutline,
   stopOutline,
@@ -13,11 +12,19 @@ import {
   pauseCircleOutline
 } from 'ionicons/icons';
 import {addIcons} from 'ionicons';
+import {
+  IonIcon,
+  IonItem, IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
+  IonLabel,
+  IonRange
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-audio-player',
   standalone: true,
-  imports: [CommonModule, IonicModule, DecimalPipe, DatePipe],
+  imports: [CommonModule, DecimalPipe, DatePipe, IonItemSliding, IonItem, IonIcon, IonLabel, IonRange, IonItemOptions, IonItemOption],
   templateUrl: './audio-player.html',
   styleUrl: './audio-player.scss',
 })

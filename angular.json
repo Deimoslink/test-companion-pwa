@@ -40,6 +40,7 @@
               "@ionic/angular/css/text-transformation.css",
               "@ionic/angular/css/flex-utils.css",
               "@ionic/angular/css/display.css",
+              "src/theme/variables.scss",
               "src/styles.scss"
             ]
           },
@@ -69,6 +70,9 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "allowedHosts": ["sue-untrite-mullishly.ngrok-free.dev"]
+          },
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
