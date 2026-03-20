@@ -1,4 +1,14 @@
-import {Component, computed, EventEmitter, Input, OnDestroy, Output, signal} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  signal
+} from '@angular/core';
 import {AudioOfflineEntry} from '@core/services/storage.service';
 import {CommonModule, DecimalPipe} from '@angular/common';
 import {
@@ -13,16 +23,18 @@ import {
 } from 'ionicons/icons';
 import {addIcons} from 'ionicons';
 import {
+  IonCol, IonGrid,
   IonIcon,
   IonItem, IonItemOption,
   IonItemOptions,
-  IonLabel
+  IonLabel, IonRow
 } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-audio-player',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, IonItem, IonIcon, IonLabel, IonItemOptions, IonItemOption],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, DecimalPipe, IonItem, IonIcon, IonLabel, IonItemOptions, IonItemOption, IonCol, IonRow, IonGrid],
   templateUrl: './audio-player.html',
   styleUrl: './audio-player.scss',
 })
@@ -55,8 +67,7 @@ export class AudioPlayer implements OnDestroy {
   private audio = new Audio();
 
   private animationFrameId?: number;
-  constructor() {
-    this.audio.ontimeupdate = () => this.currentTime.set(this.audio.currentTime);
+  constructor(private cdr: ChangeDetectorRef) {
     this.audio.onloadedmetadata = () => this.duration.set(this.audio.duration);
 
     addIcons({
@@ -132,7 +143,12 @@ export class AudioPlayer implements OnDestroy {
 
     const update = () => {
       if (!this.audio.paused && !this.audio.ended) {
-        this.currentTime.set(this.audio.currentTime);
+        const newTime = this.audio.currentTime;
+        if (this.currentTime() !== newTime) {
+          this.currentTime.set(newTime);
+        }
+
+        this.cdr.detectChanges();
         this.animationFrameId = requestAnimationFrame(update);
       }
     };

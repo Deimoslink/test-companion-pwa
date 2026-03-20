@@ -1,9 +1,9 @@
 import {Component, inject} from '@angular/core';
 import {
-  IonButton,
-  IonContent,
+  IonButton, IonCol,
+  IonContent, IonGrid,
   IonInput,
-  IonItem, IonList, IonSpinner, IonText,
+  IonItem, IonList, IonRow, IonSpinner, IonText,
 } from '@ionic/angular/standalone';
 
 import {RouterLink} from '@angular/router';
@@ -18,7 +18,7 @@ import {AuthService} from '@core/services/auth.service';
   imports: [
     IonContent,
     IonButton, IonItem, IonInput, IonList, IonText,
-    RouterLink, IonSpinner, FormsModule, AsyncPipe
+    RouterLink, IonSpinner, FormsModule, AsyncPipe, IonCol, IonRow, IonGrid
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',

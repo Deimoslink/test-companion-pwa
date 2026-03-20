@@ -1,16 +1,29 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 import {
   IonApp, IonHeader, IonToolbar, IonTitle,
   IonContent, IonRouterOutlet, IonButtons,
-  IonButton, IonIcon, IonMenu, IonList, IonItem, IonLabel, IonMenuButton, IonMenuToggle
+  IonButton, IonIcon, IonMenu, IonList, IonItem, IonLabel, IonMenuButton, IonMenuToggle,
+  IonSplitPane
 } from '@ionic/angular/standalone';
 import {addIcons} from 'ionicons';
 import {Store} from '@ngrx/store';
 import {AppState} from '@state/app.state';
 import {filter, mergeMap, startWith} from 'rxjs/operators';
 import {ActivatedRoute, NavigationEnd, Router, RouterLink} from '@angular/router';
-import {homeOutline, shieldCheckmarkOutline, logOutOutline, settingsOutline, cloudDone, cloudOffline, micOutline, moonOutline, sunnyOutline} from 'ionicons/icons';
+import {
+  homeOutline,
+  shieldCheckmarkOutline,
+  logOutOutline,
+  settingsOutline,
+  cloudDone,
+  cloudOffline,
+  micOutline,
+  moonOutline,
+  sunnyOutline,
+  chevronForwardOutline,
+  menuOutline
+} from 'ionicons/icons';
 import {CustomRouteData, routes} from './app.routes';
 import {ConnectionService} from '@core/services/connection.service';
 import {map, Observable} from 'rxjs';
@@ -24,12 +37,19 @@ import {AuthService} from '@core/services/auth.service';
   imports: [
     IonApp, IonHeader, IonToolbar, IonTitle,
     IonContent, IonRouterOutlet, IonButtons,
-    IonButton, IonIcon, AsyncPipe, IonMenu, IonList, IonItem, IonLabel, RouterLink, IonMenuButton, IonMenuToggle
+    IonButton, IonIcon, AsyncPipe, IonMenu, IonList, IonItem, IonLabel, RouterLink, IonMenuButton, IonMenuToggle, IonSplitPane
   ],
 })
 export class App implements OnInit {
   public connectionService = inject(ConnectionService);
   public isOnline = this.connectionService.isOnline;
+
+  public isMenuCollapsed = signal(false);
+
+  public toggleMenu() {
+    this.isMenuCollapsed.update(val => !val);
+    console.log('Menu toggled. Current state:', this.isMenuCollapsed());
+  }
 
   public isDarkMode = false;
 
@@ -57,7 +77,19 @@ export class App implements OnInit {
   );
 
   constructor(private authService: AuthService) {
-    addIcons({ homeOutline, shieldCheckmarkOutline, logOutOutline, settingsOutline, cloudDone, cloudOffline, micOutline, moonOutline, sunnyOutline });
+    addIcons({
+      homeOutline,
+      shieldCheckmarkOutline,
+      logOutOutline,
+      settingsOutline,
+      cloudDone,
+      cloudOffline,
+      micOutline,
+      moonOutline,
+      sunnyOutline,
+      chevronForwardOutline,
+      menuOutline
+    });
   }
 
   public ngOnInit() {
@@ -66,7 +98,7 @@ export class App implements OnInit {
 
     this.isDarkMode = savedTheme ? savedTheme === 'dark' : prefersDark;
     this.applyTheme(this.isDarkMode);
-  }
+  };
 
   private applyTheme(isDark: boolean) {
     this.isDarkMode = isDark;

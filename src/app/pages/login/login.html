@@ -1,75 +1,81 @@
 <ion-content style="--background: var(--ion-color-light);">
-  <div class="login-container"
-       style="display: flex; flex-direction: column; justify-content: center; min-height: 100%; padding: 20px;">
+  <ion-grid class="ion-no-padding" style="display: flex; align-items: center; min-height: 100%;">
+    <ion-row class="ion-justify-content-center" style="width: 100%;">
 
-    <div class="ion-text-center ion-margin-bottom">
-      <img src="assets/logo.png" alt="Logo" class="logo-img" style="width: 200px; border-radius: 16px;" />
-    </div>
+      <ion-col size="12" size-md="6" size-lg="4" style="max-width: 450px;">
 
-    <ion-list lines="none" style="background: transparent;">
-      <ion-item class="ion-margin-bottom" style="--background: transparent;">
-        <ion-input
-          #user="ngModel"
-          [(ngModel)]="loginData.username"
-          name="username"
-          [required]="true"
-          class="ion-margin-top"
-          label="Login"
-          label-placement="stacked"
-          type="text"
-          fill="outline"
-          [errorText]="user.invalid && user.touched ? 'Field is required' : ''"
-          style="--background: transparent;"
-        ></ion-input>
-      </ion-item>
+        <div class="login-container ion-padding">
 
-      <ion-item class="ion-margin-bottom" style="--background: transparent;">
-        <ion-input
-          #pass="ngModel"
-          [(ngModel)]="loginData.password"
-          name="password"
-          [required]="true"
-          [minlength]="6"
-          class="ion-margin-top"
-          label="Password"
-          label-placement="stacked"
-          type="password"
-          fill="outline"
-          [errorText]="getPassError(pass)"
-          style="--background: transparent;"
-        ></ion-input>
-      </ion-item>
+          <div class="ion-text-center ion-margin-bottom">
+            <img src="assets/logo.png" alt="Logo" class="logo-img" style="width: 160px; border-radius: 16px;" />
+          </div>
 
-      @if (error$ | async; as errorText) {
-        <div class="ion-padding-horizontal">
-          <ion-text color="danger">
-            <p class="text-sm ion-no-margin ion-text-wrap">
-              {{ errorText }}
-            </p>
-          </ion-text>
+          <ion-list lines="none" style="background: transparent;">
+            <ion-item class="ion-margin-bottom" style="--background: transparent;">
+              <ion-input
+                #user="ngModel"
+                [(ngModel)]="loginData.username"
+                name="username"
+                [required]="true"
+                class="ion-margin-top"
+                label="Login"
+                label-placement="stacked"
+                type="text"
+                fill="outline"
+                [errorText]="user.invalid && user.touched ? 'Field is required' : ''"
+              ></ion-input>
+            </ion-item>
+
+            <ion-item class="ion-margin-bottom" style="--background: transparent;">
+              <ion-input
+                #pass="ngModel"
+                [(ngModel)]="loginData.password"
+                name="password"
+                [required]="true"
+                [minlength]="6"
+                class="ion-margin-top"
+                label="Password"
+                label-placement="stacked"
+                type="password"
+                fill="outline"
+                [errorText]="getPassError(pass)"
+              ></ion-input>
+            </ion-item>
+
+            @if (error$ | async; as errorText) {
+              <div class="ion-padding-horizontal">
+                <ion-text color="danger">
+                  <p class="text-sm ion-no-margin ion-text-wrap">
+                    {{ errorText }}
+                  </p>
+                </ion-text>
+              </div>
+            }
+          </ion-list>
+
+          <ion-button
+            color="tertiary"
+            expand="block"
+            (click)="onLogin(user.value, pass.value)"
+            [disabled]="isLoading()"
+            class="ion-margin-top"
+            style="height: 48px;">
+
+            @if (isLoading()) {
+              <ion-spinner name="crescent"></ion-spinner>
+            } @else {
+              Log In
+            }
+          </ion-button>
+
+          <div class="ion-text-center ion-margin-top">
+            <ion-button color="tertiary" fill="clear" size="small" routerLink="/password-restore">
+              Forgot Password?
+            </ion-button>
+          </div>
+
         </div>
-      }
-    </ion-list>
-
-    <ion-button
-      color="tertiary"
-      expand="block"
-      (click)="onLogin(user.value, pass.value)"
-      [disabled]="isLoading()"
-      class="ion-margin-top">
-
-      @if (isLoading()) {
-        <ion-spinner name="crescent"></ion-spinner>
-      } @else {
-        Log In
-      }
-    </ion-button>
-
-    <div class="ion-text-center ion-margin-top">
-      <ion-button color="tertiary" fill="clear" size="small" routerLink="/password-restore">
-        Forgot Password?
-      </ion-button>
-    </div>
-
-  </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

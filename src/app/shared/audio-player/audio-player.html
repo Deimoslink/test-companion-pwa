@@ -1,40 +1,48 @@
-<ion-item lines="none">
-  <ion-icon
-    [name]="isPlaying() ? 'pause-circle-outline' : 'play-circle-outline'"
-    slot="start"
-    color="primary"
-    (click)="playPause($event)">
-  </ion-icon>
+<ion-grid class="ion-no-padding">
+  <ion-row class="ion-align-items-center">
 
-  <ion-label>
-    <h2>{{ recording.metadata.name || 'Recording' }}</h2>
-    <p>{{ formatTime(duration()) }} • {{ (recording.blob.size / 1024) | number:'1.0-0' }} KB</p>
-  </ion-label>
+    <ion-col size="12" size-md="5">
+      <ion-item lines="none">
+        <ion-icon
+          [name]="isPlaying() ? 'pause-circle-outline' : 'play-circle-outline'"
+          slot="start"
+          color="primary"
+          (click)="playPause($event)">
+        </ion-icon>
 
-  <ion-icon name="trash-outline"
-            slot="end"
-            color="danger"
-            (click)="delete.emit(recording.id); $event.stopPropagation()">
+        <ion-label>
+          <h2>{{ recording.metadata.name || 'Recording' }}</h2>
+          <p>{{ formatTime(duration()) }} • {{ (recording.blob.size / 1024) | number:'1.0-0' }} KB</p>
+        </ion-label>
 
-  </ion-icon>
+        <ion-icon name="trash-outline"
+                  slot="end"
+                  color="danger"
+                  (click)="delete.emit(recording.id); $event.stopPropagation()">
+        </ion-icon>
+      </ion-item>
+    </ion-col>
 
-</ion-item>
+    <ion-col size="12" size-md="7" class="ion-padding-horizontal">
+      <div class="waveform-container" (click)="seekFromWaveform($event)">
+        <div class="waveform-bars" [style.clip-path]="'inset(0 ' + (100 - progress()) + '% 0 0)'">
+          @for (peak of waveform(); track $index) {
+            <div class="bar active" [style.height.%]="peak * 100"></div>
+          }
+        </div>
 
-<div class="waveform-container" (click)="seekFromWaveform($event)">
-  <div class="waveform-bars" [style.clip-path]="'inset(0 ' + (100 - progress()) + '% 0 0)'">
-    @for (peak of waveform(); track $index) {
-      <div class="bar active" [style.height.%]="peak * 100"></div>
-    }
-  </div>
+        <div class="waveform-bg">
+          @for (peak of waveform(); track $index) {
+            <div class="bar" [style.height.%]="peak * 100"></div>
+          }
+        </div>
 
-  <div class="waveform-bg">
-    @for (peak of waveform(); track $index) {
-      <div class="bar" [style.height.%]="peak * 100"></div>
-    }
-  </div>
+        <div class="cursor-line" [style.left.%]="progress()"></div>
+      </div>
+    </ion-col>
 
-  <div class="cursor-line" [style.left.%]="progress()"></div>
-</div>
+  </ion-row>
+</ion-grid>
 
 <ion-item-options side="end">
   <ion-item-option color="danger" (click)="delete.emit(recording.id)">
