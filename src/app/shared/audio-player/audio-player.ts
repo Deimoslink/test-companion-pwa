@@ -1,5 +1,5 @@
 import {Component, computed, EventEmitter, Input, OnDestroy, Output, signal} from '@angular/core';
-import {OfflineEntry} from '@core/services/storage.service';
+import {AudioOfflineEntry} from '@core/services/storage.service';
 import {CommonModule, DecimalPipe} from '@angular/common';
 import {
   micOutline,
@@ -27,10 +27,9 @@ import {
   styleUrl: './audio-player.scss',
 })
 export class AudioPlayer implements OnDestroy {
-  private _recording!: OfflineEntry;
+  private _recording!: AudioOfflineEntry;
   @Input({ required: true })
-  set recording(value: OfflineEntry) {
-    console.log('Setting recording:', value);
+  set recording(value: AudioOfflineEntry) {
     this._recording = value;
     if (value.metadata?.duration) {
       this.duration.set(value.metadata.duration);
@@ -39,15 +38,15 @@ export class AudioPlayer implements OnDestroy {
       this.waveform.set(value.metadata.waveform);
     }
   }
-  get recording(): OfflineEntry {
+  get recording(): AudioOfflineEntry {
     return this._recording;
   }
-  @Output() delete = new EventEmitter<number | undefined>(); // Добавь undefined сюда
+  @Output() delete = new EventEmitter<number | undefined>();
 
   isPlaying = signal(false);
   currentTime = signal(0);
   duration = signal(0);
-  waveform = signal<number[]>([]); // Сигнал для волны
+  waveform = signal<number[]>([]);
   progress = computed(() => {
     if (this.duration() === 0) return 0;
     return (this.currentTime() / this.duration()) * 100;
@@ -85,10 +84,8 @@ export class AudioPlayer implements OnDestroy {
     this.audio.onended = () => {
       this.isPlaying.set(false);
       this.stopSmoothProgress();
-      this.currentTime.set(0); // Сбрасываем в ноль по окончании
+      this.currentTime.set(0);
     };
-
-
 
   }
 
@@ -107,9 +104,7 @@ export class AudioPlayer implements OnDestroy {
       try {
         await this.audio.play();
       } catch (err) {
-        if (!(err instanceof DOMException && err.name === 'AbortError')) {
-          console.error('Playback error:', err);
-        }
+        console.error('Playback error:', err);
       }
     }
   }
@@ -124,7 +119,7 @@ export class AudioPlayer implements OnDestroy {
   seekFromWaveform(ev: MouseEvent) {
     const container = ev.currentTarget as HTMLElement;
     const rect = container.getBoundingClientRect();
-    const x = ev.clientX - rect.left; // Клик относительно контейнера
+    const x = ev.clientX - rect.left;
     const clickedPercent = x / rect.width;
     const newTime = clickedPercent * this.duration();
 
@@ -147,7 +142,7 @@ export class AudioPlayer implements OnDestroy {
   private stopSmoothProgress() {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
-      this.animationFrameId = undefined; // Сбрасываем ID
+      this.animationFrameId = undefined;
     }
   }
 

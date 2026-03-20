@@ -1,13 +1,24 @@
 import {Injectable} from '@angular/core';
 import {openDB, IDBPDatabase} from 'idb';
 
-export interface OfflineEntry {
+export interface BaseEntry {
   id?: number;
-  type: 'audio' | 'image';
-  blob: Blob;
   timestamp: number;
   synced: 0 | 1;
-  metadata?: any;
+  mimeType?: string;
+  type: 'audio' | 'image';
+}
+
+export interface AudioMetadata {
+  name?: string;
+  duration: number;
+  waveform: number[];
+}
+
+export interface AudioOfflineEntry extends BaseEntry {
+  type: 'audio';
+  metadata: AudioMetadata;
+  blob: Blob
 }
 
 @Injectable({
@@ -33,35 +44,36 @@ export class StorageService {
     });
   }
 
-  async save(type: 'audio' | 'image', blob: Blob, metadata: any = {}): Promise<number> {
+  async save(type: 'audio', blob: Blob, metadata: AudioMetadata): Promise<IDBValidKey> {
     const db = await this.dbPromise;
+    const buffer = await blob.arrayBuffer();
+    const mimeType = blob.type;
+
     return db.add(this.STORE_NAME, {
       type,
-      blob,
+      blob: buffer,
+      mimeType,
       metadata,
       timestamp: Date.now(),
       synced: 0
-    }) as Promise<number>;
+    });
   }
 
-  async getUnsynced(): Promise<OfflineEntry[]> {
+  async getUnsynced(): Promise<AudioOfflineEntry[]> {
     const db = await this.dbPromise;
     const results = await db.getAllFromIndex(this.STORE_NAME, 'by-synced', 0);
 
-    return results as OfflineEntry[];
+    return results.map(item => {
+      return {
+        ...item,
+        blob: new Blob([item.blob], { type: 'audio/mp4' })
+      };
+    });
   }
 
   // TODO: sync items after they are loaded to backend, then remove them from IndexedDB
-  async markAsSynced(id: number): Promise<void> {
-    const db = await this.dbPromise;
-    const item = await db.get(this.STORE_NAME, id);
-    if (item) {
-      item.synced = 1;
-      await db.put(this.STORE_NAME, item);
-    }
-  }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: IDBValidKey): Promise<void> {
     const db = await this.dbPromise;
     await db.delete(this.STORE_NAME, id);
   }

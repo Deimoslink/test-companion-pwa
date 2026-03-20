@@ -11,7 +11,7 @@ import {AppState} from '@state/app.state';
 import {filter, mergeMap, startWith} from 'rxjs/operators';
 import {ActivatedRoute, NavigationEnd, Router, RouterLink} from '@angular/router';
 import {homeOutline, shieldCheckmarkOutline, logOutOutline, settingsOutline, cloudDone, cloudOffline, micOutline, moonOutline, sunnyOutline} from 'ionicons/icons';
-import {routes} from './app.routes';
+import {CustomRouteData, routes} from './app.routes';
 import {ConnectionService} from '@core/services/connection.service';
 import {map, Observable} from 'rxjs';
 import {AuthService} from '@core/services/auth.service';
@@ -37,7 +37,7 @@ export class App implements OnInit {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
 
-  public menuItems = routes.filter(route => route.data?.['showInMenu']);
+  public menuItems = routes.filter((route) => (route.data as CustomRouteData)?.showInMenu);
 
   public userRole$ = this.store.select(state => state.auth.role);
   public isAuthenticated$ = this.store.select(state => state.auth.isAuthenticated);
@@ -45,14 +45,14 @@ export class App implements OnInit {
   public title$: Observable<string> = this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
     map(() => this.activatedRoute),
-    map((route: any) => {
+    map((route: ActivatedRoute) => {
       while (route.firstChild) {
         route = route.firstChild;
       }
       return route;
     }),
-    mergeMap((route) => route.data),
-    map((data: any) => data['title'] || ''),
+    mergeMap((route) => route.data as Observable<CustomRouteData>),
+    map((data: CustomRouteData) => data.title || ''),
     startWith('')
   );
 

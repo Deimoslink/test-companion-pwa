@@ -1,6 +1,6 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {OfflineEntry, StorageService} from '@core/services/storage.service';
+import {AudioOfflineEntry, StorageService} from '@core/services/storage.service';
 import {AudioRecordingService} from '@core/services/audio-recording.service';
 import {addIcons} from 'ionicons';
 import {
@@ -32,7 +32,7 @@ import {WaveformService} from '@core/services/waveform.service';
   styleUrl: './audio-recordings.scss',
 })
 export class AudioRecordings implements OnInit {
-  recordings = signal<OfflineEntry[]>([]);
+  recordings = signal<AudioOfflineEntry[]>([]);
   isRecording = signal(false);
   activeId = signal<number | null>(null);
 
@@ -54,6 +54,7 @@ export class AudioRecordings implements OnInit {
   }
 
   async ngOnInit() {
+    alert('⚣ gay phone ⚣')
     await this.loadRecordings();
   }
 
@@ -66,12 +67,9 @@ export class AudioRecordings implements OnInit {
     if (this.isRecording()) {
       try {
         const blob = await this.audioService.stopRecording();
-        if (blob.size > 0) {
-
-          const [duration, waveform] = await Promise.all([
-            this.getBlobDuration(blob),
-            this.waveformService.generateWaveform(blob, 280) // Генерируем 140 точек
-          ]);
+        if (blob && blob.size > 0) {
+          const duration = await this.getBlobDuration(blob).catch(() => 0);
+          const waveform = await this.waveformService.generateWaveform(blob, 280).catch(() => []);
 
           await this.storageService.save('audio', blob, {
             name: `Record ${new Date().toLocaleTimeString()}`,
@@ -82,7 +80,6 @@ export class AudioRecordings implements OnInit {
         this.isRecording.set(false);
         await this.loadRecordings();
       } catch (err) {
-        console.error('Error:', err);
         this.isRecording.set(false);
       }
     } else {
@@ -106,28 +103,21 @@ export class AudioRecordings implements OnInit {
     await this.loadRecordings();
   }
 
-  private getBlobDuration(blob: Blob): Promise<number> {
-    return new Promise((resolve) => {
-      const tempAudio = new Audio();
-      const url = URL.createObjectURL(blob);
-
-      tempAudio.addEventListener('loadedmetadata', () => {
-        URL.revokeObjectURL(url);
-        // If webm/ogg, duration  may be Infinity:
-        if (tempAudio.duration === Infinity) {
-          tempAudio.currentTime = 1e101;
-          tempAudio.ontimeupdate = () => {
-            tempAudio.ontimeupdate = null;
-            resolve(tempAudio.duration);
-            tempAudio.currentTime = 0;
-          };
-        } else {
-          resolve(tempAudio.duration);
-        }
+  private async getBlobDuration(blob: Blob): Promise<number> {
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const arrayBuffer = await blob.arrayBuffer();
+      const audioBuffer = await new Promise<AudioBuffer>((resolve, reject) => {
+        audioContext.decodeAudioData(arrayBuffer, resolve, reject);
       });
 
-      tempAudio.src = url;
-    });
+      await audioContext.close();
+
+      return audioBuffer.duration;
+    } catch (err) {
+      console.error('WebAudio Duration Error:', err);
+      return 0;
+    }
   }
 
 }

@@ -19,7 +19,7 @@ export class AuthEffects {
       exhaustMap(({ username, password }) =>
         this.authService.loginApi(username, password).pipe(
           map((response) => AuthActions.loginSuccess({ role: response.role })),
-          catchError((error: any) =>
+          catchError((error) =>
             of(AuthActions.loginFailure({ error: error.message || 'Incorrect credentials' }))
           )
         )

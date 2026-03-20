@@ -7,7 +7,7 @@
   </ion-icon>
 
   <ion-label>
-    <h2>{{ recording.metadata?.name || 'Recording' }}</h2>
+    <h2>{{ recording.metadata.name || 'Recording' }}</h2>
     <p>{{ formatTime(duration()) }} • {{ (recording.blob.size / 1024) | number:'1.0-0' }} KB</p>
   </ion-label>
 

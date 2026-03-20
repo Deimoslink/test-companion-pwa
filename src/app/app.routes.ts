@@ -1,14 +1,21 @@
 import {Routes} from '@angular/router';
 import {roleGuard} from '@core/auth/role.guard';
 import {guestGuard} from '@core/auth/guest.guard';
-import {PasswordRestore} from '@pages/password-restore/password-restore';
+import {UserRole} from '@state/auth/auth.state';
+
+export interface CustomRouteData {
+  title: string;
+  icon?: string;
+  roles?: UserRole[];
+  showInMenu?: boolean;
+}
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  }, // Теперь стартуем с логина
+  },
   {
     path: 'login',
     loadComponent: () => import('@pages/login/login').then(m => m.Login),
