@@ -1,0 +1,29 @@
+ion-split-pane {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --side-min-width: 270px; // Дефолт
+  --side-width: 270px;
+}
+
+ion-split-pane.menu-collapsed {
+  --side-min-width: 60px !important;
+  --side-width: 60px !important;
+
+  ion-menu {
+    width: 60px !important;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ion-icon {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+  }
+}
+
+ion-item.active-route {
+  --background: var(--ion-color-tertiary) !important;
+  --color: var(--ion-color-light) !important;
+  ion-icon {
+    color: var(--ion-color-light) !important;
+  }
+}

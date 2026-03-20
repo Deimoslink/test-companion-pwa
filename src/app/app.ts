@@ -10,7 +10,7 @@ import {addIcons} from 'ionicons';
 import {Store} from '@ngrx/store';
 import {AppState} from '@state/app.state';
 import {filter, mergeMap, startWith} from 'rxjs/operators';
-import {ActivatedRoute, NavigationEnd, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {
   homeOutline,
   shieldCheckmarkOutline,
@@ -37,7 +37,7 @@ import {AuthService} from '@core/services/auth.service';
   imports: [
     IonApp, IonHeader, IonToolbar, IonTitle,
     IonContent, IonRouterOutlet, IonButtons,
-    IonButton, IonIcon, AsyncPipe, IonMenu, IonList, IonItem, IonLabel, RouterLink, IonMenuButton, IonMenuToggle, IonSplitPane
+    IonButton, IonIcon, AsyncPipe, IonMenu, IonList, IonItem, IonLabel, RouterLink, IonMenuButton, IonMenuToggle, IonSplitPane, RouterLinkActive
   ],
 })
 export class App implements OnInit {
