@@ -54,7 +54,6 @@ export class AudioRecordings implements OnInit {
   }
 
   async ngOnInit() {
-    alert('⚣ gay phone ⚣')
     await this.loadRecordings();
   }
 
