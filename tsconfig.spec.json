@@ -1,12 +1,19 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./out-tsc/spec",
-    "types": [
-      "vitest/globals"
-    ]
+    "outDir": "./dist/out-tsc",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "baseUrl": "./",
+    "types": ["jasmine"],
+    "skipLibCheck": true,
+    "paths": {
+      "@core/*": ["src/app/core/*"],
+      "@pages/*": ["src/app/pages/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@state/*": ["src/app/core/state/*"],
+      "node:module": ["./node_modules/zone.js"]
+    }
   },
   "include": [
     "src/**/*.d.ts",
