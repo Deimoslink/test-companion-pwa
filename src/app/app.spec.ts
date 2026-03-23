@@ -31,6 +31,12 @@ describe('App', () => {
   });
 
   beforeEach(async () => {
+    if (!document.getElementById('main-content')) {
+      const fakeContent = document.createElement('div');
+      fakeContent.id = 'main-content';
+      document.body.appendChild(fakeContent);
+    }
+
     routerEventsSubject = new Subject();
     mockRouter = {
       events: routerEventsSubject.asObservable(),
@@ -78,15 +84,14 @@ describe('App', () => {
       menu.swipeGesture = false;
     }
 
-    await fixture.whenStable()
     fixture.detectChanges();
   });
 
-  xit('should create the app', () => {
+  it('should create the app', () => {
     expect(component).toBeTruthy();
   });
 
-  xdescribe('Theme Logic', () => {
+  describe('Theme Logic', () => {
     beforeEach(() => {
       localStorage.clear();
       document.documentElement.classList.remove('ion-palette-dark');
@@ -119,7 +124,7 @@ describe('App', () => {
     });
   });
 
-  xdescribe('Navigation and Title', () => {
+  describe('Navigation and Title', () => {
     it('should update title$ when NavigationEnd occurs', (done) => {
       component.title$.subscribe(title => {
         if (title === 'Test Title') {
@@ -132,7 +137,7 @@ describe('App', () => {
     });
   });
 
-  xdescribe('Menu and Roles', () => {
+  describe('Menu and Roles', () => {
     it('should toggle isMenuCollapsed signal', () => {
       expect(component.isMenuCollapsed()).toBeFalse();
       component.toggleMenu();
@@ -149,7 +154,7 @@ describe('App', () => {
     });
   });
 
-  xdescribe('Auth Actions', () => {
+  describe('Auth Actions', () => {
     it('should call authService.logout', () => {
       component.logout();
       expect(authServiceSpy.logout).toHaveBeenCalled();
