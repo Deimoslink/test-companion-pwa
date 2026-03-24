@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {
   IonButton, IonCol,
-  IonContent, IonGrid,
+  IonContent, IonGrid, IonIcon,
   IonInput,
   IonItem, IonList, IonRow, IonSpinner, IonText,
 } from '@ionic/angular/standalone';
@@ -12,6 +12,7 @@ import {selectAuthError, selectAuthLoading} from '@state/auth/auth.selectors';
 import {FormsModule} from '@angular/forms';
 import {AsyncPipe} from '@angular/common';
 import {AuthService} from '@core/services/auth.service';
+import {ThemeService} from '@core/services/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,9 @@ import {AuthService} from '@core/services/auth.service';
 })
 export class Login {
   private store = inject(Store);
+  public themeService = inject(ThemeService);
+
+  public isDarkMode = this.themeService.isDarkMode;
 
   public loginData = {
     username: '',

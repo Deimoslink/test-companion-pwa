@@ -7,7 +7,7 @@
         <div class="login-container ion-padding">
 
           <div class="ion-text-center ion-margin-bottom">
-            <img src="assets/logo.png" alt="Logo" class="logo-img" style="width: 160px; border-radius: 16px;" />
+            <img [src]="isDarkMode() ? 'assets/logo-dark.png' : 'assets/logo.png'" alt="Logo" class="logo-img" style="width: 160px; border-radius: 16px;" />
           </div>
 
           <ion-list lines="none" style="background: transparent;">

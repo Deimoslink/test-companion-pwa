@@ -28,6 +28,7 @@ import {CustomRouteData, routes} from './app.routes';
 import {ConnectionService} from '@core/services/connection.service';
 import {map, Observable} from 'rxjs';
 import {AuthService} from '@core/services/auth.service';
+import {ThemeService} from '@core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -40,18 +41,17 @@ import {AuthService} from '@core/services/auth.service';
     IonButton, IonIcon, AsyncPipe, IonMenu, IonList, IonItem, IonLabel, RouterLink, IonMenuButton, IonMenuToggle, IonSplitPane, RouterLinkActive
   ],
 })
-export class App implements OnInit {
+export class App {
   public connectionService = inject(ConnectionService);
+  public themeService = inject(ThemeService);
   public isOnline = this.connectionService.isOnline;
+  public isDarkMode = this.themeService.isDarkMode;
 
   public isMenuCollapsed = signal(false);
 
   public toggleMenu() {
     this.isMenuCollapsed.update(val => !val);
-    console.log('Menu toggled. Current state:', this.isMenuCollapsed());
   }
-
-  public isDarkMode = false;
 
   private readonly store = inject(Store<AppState>);
   private router = inject(Router);
@@ -92,25 +92,8 @@ export class App implements OnInit {
     });
   }
 
-  public ngOnInit() {
-    const savedTheme = localStorage.getItem('user-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    this.isDarkMode = savedTheme ? savedTheme === 'dark' : prefersDark;
-    this.applyTheme(this.isDarkMode);
-  };
-
-  private applyTheme(isDark: boolean) {
-    this.isDarkMode = isDark;
-    const root = document.documentElement;
-    root.classList.toggle('ion-palette-dark', isDark);
-    root.style.setProperty('color-scheme', isDark ? 'dark' : 'light');
-    localStorage.setItem('user-theme', isDark ? 'dark' : 'light');
-  }
-
   public toggleTheme() {
-    this.isDarkMode = !this.isDarkMode;
-    this.applyTheme(this.isDarkMode);
+    this.themeService.toggleTheme();
   }
 
   public checkRole(routeRoles: string[], userRole: string | null): boolean {
