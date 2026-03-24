@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {openDB, IDBPDatabase} from 'idb';
-import { InjectionToken } from '@angular/core';
+import {InjectionToken} from '@angular/core';
 
 export const IDB_OPEN = new InjectionToken<typeof openDB>('IDB_OPEN', {
   providedIn: 'root',
@@ -36,7 +36,6 @@ export class StorageService {
   private readonly STORE_NAME = 'sync_queue';
 
   private openDbFn = inject(IDB_OPEN);
-  // Теперь TS знает, что openDbFn — это функция с аргументами (name, version, callbacks)
 
   constructor() {
     this.dbPromise = this.openDbFn(this.DB_NAME, 1, {
