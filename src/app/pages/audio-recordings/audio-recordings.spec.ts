@@ -145,4 +145,68 @@ describe('AudioRecordings', () => {
       expect(console.error).toHaveBeenCalled();
     });
   });
+
+  describe('toggleRecording - Additional Branches', () => {
+    it('should not save or refresh if blob is null or size is 0', async () => {
+      component.isRecording.set(true);
+      // Imitate a blob with size 0 to trigger the edge case
+      audioSpy.stopRecording.and.returnValue(Promise.resolve(new Blob([], { type: 'audio/webm' })));
+
+      await component.toggleRecording();
+
+      expect(storageSpy.save).not.toHaveBeenCalled();
+      expect(component.isRecording()).toBeFalse();
+    });
+
+    it('should handle save error and still set isRecording to false', async () => {
+      component.isRecording.set(true);
+      const mockBlob = new Blob(['data'], { type: 'audio/webm' });
+      Object.defineProperty(mockBlob, 'size', { value: 100 });
+
+      audioSpy.stopRecording.and.returnValue(Promise.resolve(mockBlob));
+      storageSpy.save.and.returnValue(Promise.reject('DB Error'));
+
+      await component.toggleRecording();
+
+      expect(component.isRecording()).toBeFalse();
+      // Check that execution did not break fatally
+    });
+  });
+
+  describe('getBlobDuration - Deep Dive', () => {
+    it('should handle decodeAudioData rejection', async () => {
+      const mockBlob = new Blob(['data']);
+      spyOn(console, 'error');
+
+      // Create a mock AudioContext that simulates decodeAudioData failure
+      const mockAudioContext = {
+        decodeAudioData: (data: any, resolve: any, reject: any) => reject('Decode Failed'),
+        close: () => Promise.resolve()
+      };
+      (window as any).AudioContext.and.returnValue(mockAudioContext);
+
+      const duration = await (component as any).getBlobDuration(mockBlob);
+
+      expect(duration).toBe(0);
+      expect(console.error).toHaveBeenCalledWith('WebAudio Duration Error:', 'Decode Failed');
+    });
+
+    it('should use webkitAudioContext if AudioContext is missing', async () => {
+      const originalAudioContext = window.AudioContext;
+      (window as any).AudioContext = undefined;
+      (window as any).webkitAudioContext = jasmine.createSpy('webkitAudioContext').and.returnValue({
+        decodeAudioData: (d: any, res: any) => res({ duration: 10 }),
+        close: () => Promise.resolve()
+      });
+
+      const duration = await (component as any).getBlobDuration(new Blob(['data']));
+
+      expect(duration).toBe(10);
+      expect((window as any).webkitAudioContext).toHaveBeenCalled();
+
+      window.AudioContext = originalAudioContext;
+    });
+  });
+
+
 });

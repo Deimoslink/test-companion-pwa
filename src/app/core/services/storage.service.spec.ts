@@ -1,52 +1,43 @@
 import { TestBed } from '@angular/core/testing';
-import { StorageService } from './storage.service';
-import * as idb from 'idb';
+import { StorageService, IDB_OPEN } from './storage.service';
 
-xdescribe('StorageService', () => {
+describe('StorageService', () => {
   let service: StorageService;
 
-  const mockDb = {
-    add: jasmine.createSpy('add').and.returnValue(Promise.resolve(1)),
-    getAllFromIndex: jasmine.createSpy('getAllFromIndex').and.returnValue(Promise.resolve([])),
-    delete: jasmine.createSpy('delete').and.returnValue(Promise.resolve())
-  };
+  let mockDb: jasmine.SpyObj<any>;
+  let openDbSpy: jasmine.Spy;
 
-  beforeEach(async () => {
+  beforeEach(() => {
+    mockDb = jasmine.createSpyObj('IDBPDatabase', ['add', 'getAllFromIndex', 'delete']);
 
-    try {
-      spyOn(idb, 'openDB').and.returnValue(Promise.resolve(mockDb as any));
-    } catch (e) {
-
-      const idbPrototype = Object.getPrototypeOf(idb);
-      if (idbPrototype) {
-        idbPrototype.openDB = () => Promise.resolve(mockDb);
-      }
-    }
+    openDbSpy = jasmine.createSpy('openDB').and.resolveTo(mockDb);
 
     TestBed.configureTestingModule({
-      providers: [StorageService]
+      providers: [
+        StorageService,
+        { provide: IDB_OPEN, useValue: openDbSpy }
+      ]
     });
 
     service = TestBed.inject(StorageService);
   });
 
-  xit('should be created and open database', () => {
+  it('should be created and initialize database', () => {
     expect(service).toBeTruthy();
-    expect(idb.openDB).toHaveBeenCalled();
+    expect(openDbSpy).toHaveBeenCalledWith('PwaOfflineDB', 1, jasmine.any(Object));
   });
 
-  xdescribe('save', () => {
+  describe('save', () => {
     it('should convert blob to arrayBuffer and add to store', async () => {
-      const mockBlob = new Blob(['test-audio'], { type: 'audio/webm' });
-      const mockMetadata = { duration: 10, waveform: [0.1, 0.5] };
+      const mockBlob = new Blob(['test-audio-content'], { type: 'audio/webm' });
+      const mockMetadata = { duration: 15, waveform: [0.1, 0.2] };
+      const mockTimestamp = 1711276000000;
 
-      // Spy on Date.now to have predictable timestamp
-      const mockTimestamp = 123456789;
       spyOn(Date, 'now').and.returnValue(mockTimestamp);
+      mockDb.add.and.resolveTo(1);
 
       await service.save('audio', mockBlob, mockMetadata);
 
-      // Verify that add was called with the correct data structure
       expect(mockDb.add).toHaveBeenCalledWith('sync_queue', jasmine.objectContaining({
         type: 'audio',
         metadata: mockMetadata,
@@ -55,36 +46,44 @@ xdescribe('StorageService', () => {
         mimeType: 'audio/webm'
       }));
 
-      // Verify blob conversion (check if it's an ArrayBuffer)
-      const callArgs = mockDb.add.calls.mostRecent().args[1];
-      expect(callArgs.blob instanceof ArrayBuffer).toBeTrue();
+      const lastCallArgs = mockDb.add.calls.mostRecent().args[1];
+      expect(lastCallArgs.blob instanceof ArrayBuffer).toBeTrue();
     });
   });
 
-  xdescribe('getUnsynced', () => {
-    it('should fetch items by index and map them to AudioOfflineEntry with Blobs', async () => {
-      const mockArrayBuffer = new Uint8Array([1, 2, 3]).buffer;
-      const mockResults = [
-        { id: 1, type: 'audio', blob: mockArrayBuffer, synced: 0 }
+  describe('getUnsynced', () => {
+    it('should fetch unsynced items and map them back to Blobs', async () => {
+      const mockBuffer = new ArrayBuffer(8);
+      const mockDbResults = [
+        {
+          id: 1,
+          type: 'audio',
+          blob: mockBuffer,
+          synced: 0,
+          metadata: { duration: 10, waveform: [] }
+        }
       ];
 
-      mockDb.getAllFromIndex.and.returnValue(Promise.resolve(mockResults));
+      mockDb.getAllFromIndex.and.resolveTo(mockDbResults);
 
-      const entries = await service.getUnsynced();
+      const result = await service.getUnsynced();
 
       expect(mockDb.getAllFromIndex).toHaveBeenCalledWith('sync_queue', 'by-synced', 0);
-      expect(entries.length).toBe(1);
-      expect(entries[0].blob instanceof Blob).toBeTrue();
-      // Your service hardcodes 'audio/mp4' in mapping, verifying that
-      expect(entries[0].blob.type).toBe('audio/mp4');
+
+      expect(result.length).toBe(1);
+      expect(result[0].blob instanceof Blob).toBeTrue();
+      expect(result[0].blob.type).toBe('audio/mp4'); // Проверка хардкода из вашего маппера
     });
   });
 
-  xdescribe('delete', () => {
-    it('should call db.delete with provided id', async () => {
-      const targetId = 123;
-      await service.delete(targetId);
-      expect(mockDb.delete).toHaveBeenCalledWith('sync_queue', targetId);
+  describe('delete', () => {
+    it('should call db.delete with correct id', async () => {
+      const idToDelete = 42;
+      mockDb.delete.and.resolveTo();
+
+      await service.delete(idToDelete);
+
+      expect(mockDb.delete).toHaveBeenCalledWith('sync_queue', idToDelete);
     });
   });
 });

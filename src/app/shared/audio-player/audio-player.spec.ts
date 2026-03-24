@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AudioPlayer } from './audio-player';
 import { AudioOfflineEntry } from '@core/services/storage.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -175,4 +175,73 @@ describe('AudioPlayer', () => {
       expect(mockAudio.src).toBe('');
     });
   });
+
+  describe('Smooth Progress (Animation)', () => {
+    let animationCallback: FrameRequestCallback | undefined;
+
+    beforeEach(() => {
+      animationCallback = undefined;
+      const rafSpy = spyOn(window, 'requestAnimationFrame').and.callFake((cb: FrameRequestCallback) => {
+        animationCallback = cb;
+        return 123;
+      });
+      spyOn(window, 'cancelAnimationFrame');
+    });
+
+    it('should start animation loop when play() is called', async () => {
+      const startSpy = spyOn(component as any, 'startSmoothProgress').and.callThrough();
+
+      mockAudio.paused = true;
+      mockAudio.src = 'some-src';
+
+      await component.playPause(new Event('click'));
+
+      if (mockAudio.onplay) mockAudio.onplay();
+
+      expect(startSpy).toHaveBeenCalled();
+      expect(window.requestAnimationFrame).toHaveBeenCalled();
+    });
+
+    it('should update currentTime and call detectChanges during animation frame', fakeAsync(() => {
+      const cdr = (component as any).cdr;
+      const detectSpy = spyOn(cdr, 'detectChanges').and.callThrough();
+
+      const rafSpy = window.requestAnimationFrame as jasmine.Spy;
+      rafSpy.calls.reset();
+
+      mockAudio.paused = false;
+      mockAudio.ended = false;
+      component.currentTime.set(10);
+      mockAudio.currentTime = 11;
+
+      (component as any).startSmoothProgress();
+
+      const firstCallback = rafSpy.calls.mostRecent().args[0];
+
+      rafSpy.calls.reset();
+
+      firstCallback(performance.now());
+
+      expect(component.currentTime()).toBe(11);
+      expect(detectSpy).toHaveBeenCalled();
+
+      expect(rafSpy.calls.count()).toBeGreaterThanOrEqual(1);
+
+      (component as any).stopSmoothProgress();
+      tick(100);
+    }));
+
+    it('should stop animation loop if audio is paused or ended', () => {
+      (window.requestAnimationFrame as jasmine.Spy).calls.reset();
+      (component as any).startSmoothProgress();
+
+      mockAudio.paused = true;
+
+      if (animationCallback) animationCallback(0);
+
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1);
+    });
+  });
+
+
 });

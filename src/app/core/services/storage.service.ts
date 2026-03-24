@@ -1,5 +1,11 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {openDB, IDBPDatabase} from 'idb';
+import { InjectionToken } from '@angular/core';
+
+export const IDB_OPEN = new InjectionToken<typeof openDB>('IDB_OPEN', {
+  providedIn: 'root',
+  factory: () => openDB
+});
 
 export interface BaseEntry {
   id?: number;
@@ -29,8 +35,11 @@ export class StorageService {
   private readonly DB_NAME = 'PwaOfflineDB';
   private readonly STORE_NAME = 'sync_queue';
 
+  private openDbFn = inject(IDB_OPEN);
+  // Теперь TS знает, что openDbFn — это функция с аргументами (name, version, callbacks)
+
   constructor() {
-    this.dbPromise = openDB(this.DB_NAME, 1, {
+    this.dbPromise = this.openDbFn(this.DB_NAME, 1, {
       upgrade(db) {
         if (!db.objectStoreNames.contains('sync_queue')) {
           const store = db.createObjectStore('sync_queue', {
