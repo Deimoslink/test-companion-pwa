@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {IonContent,} from '@ionic/angular/standalone';
 
 @Component({
@@ -10,4 +10,11 @@ import {IonContent,} from '@ionic/angular/standalone';
     IonContent
   ]
 })
-export class Home {}
+export class Home implements OnInit {
+  cacheStatus = signal<string>('Checking...');
+
+  async ngOnInit() {
+    const keys = await caches.keys();
+    this.cacheStatus.set(keys.join(', '));
+  }
+}
