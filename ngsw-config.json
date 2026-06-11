@@ -1,6 +1,10 @@
 {
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
-  "index": "/index.html",
+  "index": "/test-companion-pwa/index.html",
+  "navigationUrls": [
+    "/**"
+  ],
+  "navigationRequestStrategy": "performance",
   "assetGroups": [
     {
       "name": "app",
