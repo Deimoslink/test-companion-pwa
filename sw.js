@@ -1,18 +1,42 @@
 const CACHE_NAME = 'app-cache-v1';
-const INDEX_URL = '/test-companion-pwa/index.html';
+const BASE_PATH = '/test-companion-pwa/';
+const INDEX_URL = BASE_PATH + 'index.html';
 
 self.addEventListener('install', (event) => {
+  console.log('[SW] Install: Caching initial files');
+  self.skipWaiting(); // Активируем сразу
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.add(INDEX_URL)));
 });
 
+self.addEventListener('activate', (event) => {
+  console.log('[SW] Activated');
+  event.waitUntil(self.clients.claim());
+});
+
 self.addEventListener('fetch', (event) => {
-  // Перехватываем только навигационные запросы (переходы по страницам)
+  const url = new URL(event.request.url);
+
+  // 1. Для навигации (переход на /login и т.д.)
   if (event.request.mode === 'navigate') {
+    console.log('[SW] Fetching navigation:', event.request.url);
     event.respondWith(
-      fetch(event.request).catch(() => {
-        // Если сеть лежит или сервер вернул 404 - отдаем index.html из кэша
+      fetch(event.request)
+      .then(response => {
+        if (!response || response.status === 404) {
+          throw new Error('404');
+        }
+        return response;
+      })
+      .catch(() => {
+        console.log('[SW] Network failed/404, serving cached index.html');
         return caches.match(INDEX_URL);
       })
     );
+    return;
   }
+
+  // 2. Для остальных ресурсов (JS, CSS) — если упали, пробуем кэш
+  event.respondWith(
+    fetch(event.request).catch(() => caches.match(event.request))
+  );
 });
