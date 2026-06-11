@@ -1,6 +1,6 @@
 import {
   ApplicationConfig,
-  isDevMode,
+  isDevMode, provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
@@ -12,10 +12,16 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { authReducer } from '@state/auth/auth.reducer';
 import { AuthEffects } from '@state/auth/auth.effects';
-import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAppInitializer(() => {
+      if ('serviceWorker' in navigator) {
+        return navigator.serviceWorker.register('/test-companion-pwa/sw.js')
+        .catch(err => console.error('SW registration failed:', err));
+      }
+      return Promise.resolve();
+    }),
     provideIonicAngular({
       swipeBackEnabled: false,
     }),
@@ -28,10 +34,6 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),
-    }),
-    provideServiceWorker('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
 };
