@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1781442927881,
+  "timestamp": 1781444311297,
   "index": "/test-companion-pwa/index.html",
   "assetGroups": [
     {
@@ -42,13 +42,13 @@
         "/test-companion-pwa/chunk-UHJ36HTV.js",
         "/test-companion-pwa/chunk-UOVXNVQ7.js",
         "/test-companion-pwa/chunk-XV4GXQD2.js",
+        "/test-companion-pwa/chunk-Y7HIJCBR.js",
         "/test-companion-pwa/chunk-YJ5TA4PT.js",
         "/test-companion-pwa/chunk-YUNOCBLG.js",
-        "/test-companion-pwa/chunk-ZB72BRQQ.js",
         "/test-companion-pwa/custom-sw.js",
         "/test-companion-pwa/favicon.ico",
         "/test-companion-pwa/index.html",
-        "/test-companion-pwa/main-YJE2WYLY.js",
+        "/test-companion-pwa/main-DMG7ULJX.js",
         "/test-companion-pwa/manifest.webmanifest",
         "/test-companion-pwa/styles-2H2Y3XLG.css"
       ],
@@ -111,19 +111,19 @@
     "/test-companion-pwa/chunk-UHJ36HTV.js": "d8533ede4c377c7b8b37c413f1a019debfb637b9",
     "/test-companion-pwa/chunk-UOVXNVQ7.js": "826455d6e342439cb773dbfcc9d0e2529c3cc0f4",
     "/test-companion-pwa/chunk-XV4GXQD2.js": "89fa2dc1a516d96085965578020dce863bd9cac2",
+    "/test-companion-pwa/chunk-Y7HIJCBR.js": "99d7dd8aa5c66b8575ed8031069ada0be65f5916",
     "/test-companion-pwa/chunk-YJ5TA4PT.js": "3588f144b673886efc030c76678ca4feee860e22",
     "/test-companion-pwa/chunk-YUNOCBLG.js": "e2d1b2b8fe6ae2d6a5f5b8ae3d404a0300831fb4",
-    "/test-companion-pwa/chunk-ZB72BRQQ.js": "891edbdd8c7263ca262aad295ebe03cc65331775",
     "/test-companion-pwa/custom-sw.js": "5ccc9c6bd806672db4c54d893d1bfa6e161a1572",
     "/test-companion-pwa/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/test-companion-pwa/index.html": "fb07a4d4892970a3c824952d83f9257d0d4ce547",
-    "/test-companion-pwa/main-YJE2WYLY.js": "bb383df07fa77a0b6828bd6b339f1b28b4449fab",
+    "/test-companion-pwa/index.html": "943cd4963c72f69a9b321154654d551046a4d1f5",
+    "/test-companion-pwa/main-DMG7ULJX.js": "9b885b6f26cad405bd2fb909d8f591acc00a4644",
     "/test-companion-pwa/manifest.webmanifest": "e4370ba2e90ccec9f850bb47d0e0649b67ae5f37",
     "/test-companion-pwa/styles-2H2Y3XLG.css": "3b7e86b1b48684b32140a4df14408cb138b2f143"
   },
   "navigationUrls": [
     {
-      "positive": true,
+      "positive": false,
       "regex": "^\\/.*$"
     }
   ],
