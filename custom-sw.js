@@ -1,6 +1,3 @@
-// Подключаем стандартный Angular Service Worker
-importScripts('./ngsw-worker.js');
-
 const BASE_PATH = '/test-companion-pwa/';
 const INDEX_URL = BASE_PATH + 'index.html';
 
@@ -42,6 +39,9 @@ const INDEX_URL = BASE_PATH + 'index.html';
   });
 
 })();
+
+// Подключаем стандартный Angular Service Worker
+importScripts('./ngsw-worker.js');
 
 
 

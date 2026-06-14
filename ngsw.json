@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1781445085013,
+  "timestamp": 1781445526931,
   "index": "/test-companion-pwa/index.html",
   "assetGroups": [
     {
@@ -114,7 +114,7 @@
     "/test-companion-pwa/chunk-XV4GXQD2.js": "89fa2dc1a516d96085965578020dce863bd9cac2",
     "/test-companion-pwa/chunk-YJ5TA4PT.js": "3588f144b673886efc030c76678ca4feee860e22",
     "/test-companion-pwa/chunk-YUNOCBLG.js": "e2d1b2b8fe6ae2d6a5f5b8ae3d404a0300831fb4",
-    "/test-companion-pwa/custom-sw.js": "5ccc9c6bd806672db4c54d893d1bfa6e161a1572",
+    "/test-companion-pwa/custom-sw.js": "4b4ba1a3df78eaf3ebd2a5468ba65f475ca1caa5",
     "/test-companion-pwa/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
     "/test-companion-pwa/index.html": "2007a6d7be3daf35e1b189dc5bc73a64731e53cb",
     "/test-companion-pwa/main-2HKH6A4W.js": "0a1faf0191569c4e9cca8c1a59d7656f1f7fccb5",
