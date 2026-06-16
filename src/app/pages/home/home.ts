@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IonContent } from '@ionic/angular/standalone';
 import { ApiService } from '@core/services/api.service';
 import { toSignal } from '@angular/core/rxjs-interop';

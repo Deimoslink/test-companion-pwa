@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "test:coverage": "ng test --no-watch --code-coverage"
+    "test:coverage": "ng test --no-watch --code-coverage",
+    "deploy": "npx gh-pages -d .\\\\dist\\\\my-pwa-app\\\\browser"
   },
   "private": true,
   "packageManager": "npm@10.9.3",
