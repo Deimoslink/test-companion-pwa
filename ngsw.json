@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1781600052128,
+  "timestamp": 1781600684200,
   "index": "/test-companion-pwa/index.html",
   "assetGroups": [
     {
@@ -73,22 +73,7 @@
       "patterns": []
     }
   ],
-  "dataGroups": [
-    {
-      "name": "api-cache",
-      "patterns": [
-        "https:\\/\\/jsonplaceholder\\.typicode\\.com\\/.*"
-      ],
-      "strategy": "performance",
-      "maxSize": 100,
-      "maxAge": 86400000,
-      "timeoutMs": 5000,
-      "cacheQueryOptions": {
-        "ignoreVary": true
-      },
-      "version": 1
-    }
-  ],
+  "dataGroups": [],
   "hashTable": {
     "/test-companion-pwa/assets/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
     "/test-companion-pwa/assets/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
@@ -131,7 +116,7 @@
     "/test-companion-pwa/chunk-XV4GXQD2.js": "89fa2dc1a516d96085965578020dce863bd9cac2",
     "/test-companion-pwa/chunk-YJ5TA4PT.js": "3588f144b673886efc030c76678ca4feee860e22",
     "/test-companion-pwa/chunk-YUNOCBLG.js": "e2d1b2b8fe6ae2d6a5f5b8ae3d404a0300831fb4",
-    "/test-companion-pwa/custom-sw.js": "46474a64c5abfe000b82d68eb70831fcc8f19e9b",
+    "/test-companion-pwa/custom-sw.js": "5be9a5f16bba624d5d5e15b083f6abcfb0eb6122",
     "/test-companion-pwa/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
     "/test-companion-pwa/index.html": "840d4024e5d25aa6db16b377e876c7d01145543c",
     "/test-companion-pwa/main-BP2ODIYU.js": "e4415c2039b6ae57d7a5ca3dac521bbf249626a3",
@@ -142,6 +127,18 @@
     {
       "positive": true,
       "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
     }
   ],
   "navigationRequestStrategy": "performance"
