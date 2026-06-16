@@ -1,7 +1,15 @@
 <ion-content class="ion-padding">
   <div class="welcome-container">
     <h2>Home works</h2>
-    <p>Angular + Custom SW connected, redirection removed from angular logic</p>
-    <p>Changed order</p>
+    <p>Hybrid SW, cached GET call from public API via dataGroups prop</p>
+
+    @if (error()) {
+      <p style="color: var(--ion-color-danger)">{{ error() }}</p>
+    } @else if (todo(); as data) {
+      <pre>{{ data | json }}</pre>
+    } @else {
+      <p>Загрузка...</p>
+    }
+
   </div>
 </ion-content>
