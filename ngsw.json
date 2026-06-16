@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1781600684200,
+  "timestamp": 1781601800344,
   "index": "/test-companion-pwa/index.html",
   "assetGroups": [
     {
@@ -31,7 +31,6 @@
         "/test-companion-pwa/chunk-I547WOKC.js",
         "/test-companion-pwa/chunk-KHIPLDT2.js",
         "/test-companion-pwa/chunk-LA4M32MV.js",
-        "/test-companion-pwa/chunk-LV3UBWRY.js",
         "/test-companion-pwa/chunk-NEIO63TV.js",
         "/test-companion-pwa/chunk-NMFL75IO.js",
         "/test-companion-pwa/chunk-NWJ5J3BN.js",
@@ -46,10 +45,10 @@
         "/test-companion-pwa/chunk-XV4GXQD2.js",
         "/test-companion-pwa/chunk-YJ5TA4PT.js",
         "/test-companion-pwa/chunk-YUNOCBLG.js",
-        "/test-companion-pwa/custom-sw.js",
+        "/test-companion-pwa/chunk-YZCATBJJ.js",
         "/test-companion-pwa/favicon.ico",
         "/test-companion-pwa/index.html",
-        "/test-companion-pwa/main-BP2ODIYU.js",
+        "/test-companion-pwa/main-5XNYTBES.js",
         "/test-companion-pwa/manifest.webmanifest",
         "/test-companion-pwa/styles-2H2Y3XLG.css"
       ],
@@ -73,7 +72,22 @@
       "patterns": []
     }
   ],
-  "dataGroups": [],
+  "dataGroups": [
+    {
+      "name": "api-cache",
+      "patterns": [
+        "https:\\/\\/jsonplaceholder\\.typicode\\.com\\/.*"
+      ],
+      "strategy": "performance",
+      "maxSize": 1000,
+      "maxAge": 604800000,
+      "timeoutMs": 10000,
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "version": 1
+    }
+  ],
   "hashTable": {
     "/test-companion-pwa/assets/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
     "/test-companion-pwa/assets/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
@@ -101,7 +115,6 @@
     "/test-companion-pwa/chunk-I547WOKC.js": "92261aefdb83402ebba27fbaefdf4427960a73b5",
     "/test-companion-pwa/chunk-KHIPLDT2.js": "fda73ef28bba29d48afb913bdc1f1e25d08cf5d0",
     "/test-companion-pwa/chunk-LA4M32MV.js": "343948dc1dbd69caf31fc34327eeb1e281be918b",
-    "/test-companion-pwa/chunk-LV3UBWRY.js": "e802bf80947d00428d3fa67cc2404949e8ca9922",
     "/test-companion-pwa/chunk-NEIO63TV.js": "be76504ecb5e114b99da90a4743e822007581d64",
     "/test-companion-pwa/chunk-NMFL75IO.js": "474d4da78c6df98c5979a2dab41ed174f171cc39",
     "/test-companion-pwa/chunk-NWJ5J3BN.js": "2543c7f0eb15dc020472356de4d8aa4a73797732",
@@ -116,10 +129,10 @@
     "/test-companion-pwa/chunk-XV4GXQD2.js": "89fa2dc1a516d96085965578020dce863bd9cac2",
     "/test-companion-pwa/chunk-YJ5TA4PT.js": "3588f144b673886efc030c76678ca4feee860e22",
     "/test-companion-pwa/chunk-YUNOCBLG.js": "e2d1b2b8fe6ae2d6a5f5b8ae3d404a0300831fb4",
-    "/test-companion-pwa/custom-sw.js": "5be9a5f16bba624d5d5e15b083f6abcfb0eb6122",
+    "/test-companion-pwa/chunk-YZCATBJJ.js": "96e1fddaa7fc88f052f09ba652a378490041fe43",
     "/test-companion-pwa/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/test-companion-pwa/index.html": "840d4024e5d25aa6db16b377e876c7d01145543c",
-    "/test-companion-pwa/main-BP2ODIYU.js": "e4415c2039b6ae57d7a5ca3dac521bbf249626a3",
+    "/test-companion-pwa/index.html": "8a9ef2659ef09d55cec3fb54f3f75e0b451151bc",
+    "/test-companion-pwa/main-5XNYTBES.js": "e1f750423a2f595ed629a89e198fdddd86e58d12",
     "/test-companion-pwa/manifest.webmanifest": "e4370ba2e90ccec9f850bb47d0e0649b67ae5f37",
     "/test-companion-pwa/styles-2H2Y3XLG.css": "3b7e86b1b48684b32140a4df14408cb138b2f143"
   },
@@ -127,18 +140,6 @@
     {
       "positive": true,
       "regex": "^\\/.*$"
-    },
-    {
-      "positive": false,
-      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
-    },
-    {
-      "positive": false,
-      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
-    },
-    {
-      "positive": false,
-      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
     }
   ],
   "navigationRequestStrategy": "performance"
