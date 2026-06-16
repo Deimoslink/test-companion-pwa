@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1781603699188,
+  "timestamp": 1781604062744,
   "index": "/test-companion-pwa/index.html",
   "assetGroups": [
     {
@@ -140,6 +140,18 @@
     {
       "positive": true,
       "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
     }
   ],
   "navigationRequestStrategy": "performance"
