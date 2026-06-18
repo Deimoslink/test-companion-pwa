@@ -15,18 +15,42 @@ import { JsonPipe } from '@angular/common';
     IonContent, JsonPipe
   ]
 })
-export class Home {
+export class Home implements OnInit {
   private apiService = inject(ApiService);
 
+  // Теперь оба состояния — это управляемые сигналы
+  todo = signal<any>(null);
   error = signal<string | null>(null);
 
-  todo = toSignal(
+  ngOnInit() {
+    // 1. Делаем первичный запрос при инициализации страницы
+    this.loadData();
+
+    // 2. Слушаем Workbox. Когда он обновит кэш из сети — молча перетираем сигнал свежаком
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'CACHE_UPDATED') {
+          console.log('Workbox сообщил об обновлении кэша. Обновляем UI...');
+          this.loadData();
+        }
+      });
+    }
+  }
+
+  private loadData() {
     this.apiService.getData().pipe(
       catchError((err) => {
-        this.error.set('Ошибка загрузки данных');
+        // Если в кэше вообще ничего нет и сеть лежит — покажем ошибку
+        if (!this.todo()) {
+          this.error.set('Ошибка загрузки данных');
+        }
         return of(null);
       })
-    )
-  );
-
+    ).subscribe((data) => {
+      if (data) {
+        this.todo.set(data);
+        this.error.set(null); // Сбрасываем ошибку, если данные пришли (хоть из кэша, хоть из сети)
+      }
+    });
+  }
 }

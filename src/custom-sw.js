@@ -1,7 +1,8 @@
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { NetworkFirst, CacheFirst } from 'workbox-strategies';
+import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 import { ExpirationPlugin } from 'workbox-expiration';
+import { BroadcastUpdatePlugin } from 'workbox-broadcast-update';
 
 const BASE_PREFIX = '/test-companion-pwa/';
 
@@ -20,21 +21,15 @@ const navigationRoute = new NavigationRoute(handler, {
 registerRoute(navigationRoute);
 // ------------------------------------
 
-// 2. Стратегия для API (Network First)
+// 2. Стратегия для API (StaleWhileRevalidate)
 registerRoute(
-  ({ url }) => url.hostname === 'jsonplaceholder.typicode.com' || url.pathname.includes('/api/'),
-  new NetworkFirst({
+  ({ url }) => url.pathname.includes('/api/'),
+  new StaleWhileRevalidate({
     cacheName: 'test-companion-api-v1',
-    networkTimeoutSeconds: 3,
     plugins: [
-      {
-        handlerDidError: async ({ request }) => {
-          if (!navigator.onLine) {
-            const cache = await caches.open('test-companion-api-v1');
-            return await cache.match(request, { ignoreSearch: true });
-          }
-        }
-      }
+      new BroadcastUpdatePlugin({
+        headersToCheck: ['date', 'content-length']
+      })
     ]
   })
 );
