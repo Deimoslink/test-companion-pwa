@@ -1,5 +1,26 @@
 <ion-content class="ion-padding">
   <div class="welcome-container">
     <h2>Admin works</h2>
+    <p>Проверка кэширования изображений в офлайне</p>
   </div>
+
+  @if (isLoading()) {
+  <div class="ion-text-center ion-padding">
+    <ion-spinner name="circular"></ion-spinner>
+    <p>Загрузка картинок из API...</p>
+  </div>
+  }
+
+  @if (!isLoading() && images().length > 0) {
+  <div class="images-grid">
+    @for (imgUrl of images(); track imgUrl) {
+    <ion-card>
+      <img [src]="imgUrl" alt="Public API Dog" class="api-image" />
+      <ion-card-content>
+        <p class="ion-text-wrap">URL: {{ imgUrl }}</p>
+      </ion-card-content>
+    </ion-card>
+    }
+  </div>
+  }
 </ion-content>

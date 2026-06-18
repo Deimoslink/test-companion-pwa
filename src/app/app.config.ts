@@ -12,7 +12,6 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { authReducer } from '@state/auth/auth.reducer';
 import { AuthEffects } from '@state/auth/auth.effects';
-import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,10 +27,6 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),
-    }),
-    provideServiceWorker('custom-sw.js', {
-      enabled: !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
 };
